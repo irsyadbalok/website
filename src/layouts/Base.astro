@@ -6,7 +6,8 @@ import '@fontsource/poppins/latin-700.css';
 import '@fontsource-variable/open-sans/wght.css';
 import '../styles/global.css';
 import { getEntry } from 'astro:content';
-import { T, NAMA, MENU_UTAMA, MENU_SRAIB, href, asset, type Lang } from '../lib/i18n';
+import { T, NAMA, MENU_UTAMA, href, asset, type Lang } from '../lib/i18n';
+import { LAJUR_PROFIL, MEDIA, bahagianSraib, type Pautan } from '../lib/menu';
 
 interface Props {
   lang: Lang;
@@ -22,18 +23,22 @@ const lain: Lang = lang === 'ms' ? 'en' : 'ms';
 const unit = path === 'sraib' || path.startsWith('sraib/') ? 'sraib' : 'akademi';
 const tetapan = (await getEntry('tetapan', 'laman'))!.data;
 const hubungan = unit === 'sraib' ? tetapan.sraib : tetapan.akademi;
-const adaMedia = hubungan.facebook || hubungan.instagram || hubungan.tiktok;
+const media = [
+  ['Facebook', hubungan.facebook],
+  ['Instagram', hubungan.instagram],
+  ['TikTok', hubungan.tiktok],
+].filter(([, url]) => url) as [string, string][];
 
 const namaUnit = unit === 'sraib' ? NAMA.sraibPendek : NAMA.akademi;
 const tajukPenuh = title === NAMA.akademi ? title : `${title} | ${namaUnit}`;
 const kanonik = new URL(href(lang, path), Astro.site).toString();
-const menu = unit === 'sraib' ? MENU_SRAIB : MENU_UTAMA;
+const aktif = unit === 'sraib' ? bahagianSraib(path) : '';
+const semasaHab = (p: string) => path === p || path.startsWith(p.split('/')[0] + '/');
+const ke = (p: Pautan) => href(lang, p.path) + (p.hash ? `#${p.hash[lang]}` : '');
 
 const hebahan = tetapan.hebahan;
 const hebahanAktif = hebahan.aktif && hebahan.teks && (!hebahan.tamat || hebahan.tamat.getTime() >= Date.now() - 864e5);
 const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan.teks;
-
-const semasa = (p: string) => path === p || path.startsWith(p + '/') || (p.includes('/') && path.startsWith(p.split('/')[0] + '/') && unit === 'akademi');
 ---
 
 <!doctype html>
@@ -50,7 +55,11 @@ const semasa = (p: string) => path === p || path.startsWith(p + '/') || (p.inclu
     <meta property="og:title" content={tajukPenuh} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#221e72" />
+    <meta name="theme-color" content="#0e6b38" />
+    <!-- Tanpa JavaScript, menu dipaparkan terbuka sepenuhnya dan laman tetap boleh digunakan. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
   </head>
   <body>
     <a class="langkau" href="#kandungan">{t.langkau}</a>
@@ -78,18 +87,67 @@ const semasa = (p: string) => path === p || path.startsWith(p + '/') || (p.inclu
           <img src={asset('images/logo-sraib-telus.webp')} alt="" width="360" height="415" />
           <span>{namaUnit}</span>
         </a>
-        <nav aria-label={unit === 'sraib' ? t.menuBahagian : t.menuUtama}>
-          <ul class="menu">
-            {
-              menu.map((m) => (
+        <button class="menu-butang" type="button" aria-expanded="false" aria-controls="menu-utama">{t.menu}</button>
+        <nav id="menu-utama" aria-label={unit === 'sraib' ? t.menuBahagian : t.menuUtama}>
+          {
+            unit === 'akademi' ? (
+              <ul class="menu">
+                {MENU_UTAMA.map((m) => (
+                  <li>
+                    <a href={href(lang, m.path)} aria-current={semasaHab(m.path) ? 'page' : undefined}>
+                      {m[lang]}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <ul class="menu">
                 <li>
-                  <a href={href(lang, m.path)} aria-current={semasa(m.path) ? 'page' : undefined}>
-                    {m[lang]}
-                  </a>
+                  <a href={href(lang, 'sraib')} aria-current={aktif === 'utama' ? 'page' : undefined}>{t.utama}</a>
                 </li>
-              ))
-            }
-          </ul>
+                <li class="ada-sub lebar">
+                  <a href={href(lang, 'sraib/profil')} aria-current={aktif === 'profil' ? 'true' : undefined}>{t.profil}</a>
+                  <button class="sub-butang" type="button" aria-expanded="false" aria-controls="sub-profil" aria-label={`${t.submenu} ${t.profil}`}>
+                    <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="sub lajur" id="sub-profil">
+                    {LAJUR_PROFIL.map((l) => (
+                      <div>
+                        <a class="sub-tajuk" href={href(lang, l.path)}>{l.tajuk[lang]}</a>
+                        <ul>
+                          {l.pautan.map((p) => (
+                            <li><a href={ke(p)}>{p[lang]}</a></li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </li>
+                <li class="ada-sub">
+                  <a href={href(lang, 'sraib/berita')} aria-current={aktif === 'media' ? 'true' : undefined}>Media</a>
+                  <button class="sub-butang" type="button" aria-expanded="false" aria-controls="sub-media" aria-label={`${t.submenu} Media`}>
+                    <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <div class="sub" id="sub-media">
+                    <ul>
+                      {MEDIA.map((p) => (
+                        <li><a href={ke(p)}>{p[lang]}</a></li>
+                      ))}
+                      {media.map(([nama, url]) => (
+                        <li><a href={url} rel="noopener">{nama}</a></li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <a href={href(lang, 'hubungi')}>{t.hubungiPendek}</a>
+                </li>
+                <li class="telefon-sahaja">
+                  <a href={href(lang, 'sraib/pendaftaran')} aria-current={path === 'sraib/pendaftaran' ? 'page' : undefined}>{t.daftar}</a>
+                </li>
+              </ul>
+            )
+          }
         </nav>
         {unit === 'sraib' && <a class="butang kecil" href={href(lang, 'sraib/pendaftaran')}>{t.daftarPendek}</a>}
       </div>
@@ -120,13 +178,13 @@ const semasa = (p: string) => path === p || path.startsWith(p + '/') || (p.inclu
             </ul>
           </div>
           {
-            adaMedia && (
+            media.length > 0 && (
               <div>
                 <h2>{t.mediaSosial}</h2>
                 <ul>
-                  {hubungan.facebook && <li><a href={hubungan.facebook} rel="noopener">Facebook</a></li>}
-                  {hubungan.instagram && <li><a href={hubungan.instagram} rel="noopener">Instagram</a></li>}
-                  {hubungan.tiktok && <li><a href={hubungan.tiktok} rel="noopener">TikTok</a></li>}
+                  {media.map(([nama, url]) => (
+                    <li><a href={url} rel="noopener">{nama}</a></li>
+                  ))}
                 </ul>
               </div>
             )
@@ -138,5 +196,35 @@ const semasa = (p: string) => path === p || path.startsWith(p + '/') || (p.inclu
         </div>
       </div>
     </footer>
+
+    <script is:inline>
+      (() => {
+        const nav = document.getElementById('menu-utama');
+        const butangMenu = document.querySelector('.menu-butang');
+        const butangSub = [...document.querySelectorAll('.sub-butang')];
+        const tutupSub = () =>
+          butangSub.forEach((b) => {
+            b.setAttribute('aria-expanded', 'false');
+            document.getElementById(b.getAttribute('aria-controls')).classList.remove('buka');
+          });
+        butangMenu?.addEventListener('click', () => {
+          butangMenu.setAttribute('aria-expanded', String(nav.classList.toggle('buka')));
+        });
+        butangSub.forEach((b) =>
+          b.addEventListener('click', () => {
+            const buka = b.getAttribute('aria-expanded') !== 'true';
+            tutupSub();
+            b.setAttribute('aria-expanded', String(buka));
+            document.getElementById(b.getAttribute('aria-controls')).classList.toggle('buka', buka);
+          }),
+        );
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape') return;
+          tutupSub();
+          if (document.activeElement?.closest('.ada-sub')) document.activeElement.blur();
+        });
+        document.addEventListener('click', (e) => !e.target.closest('.ada-sub') && tutupSub());
+      })();
+    </script>
   </body>
 </html>

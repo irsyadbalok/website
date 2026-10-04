@@ -16,9 +16,10 @@ const berita = (await beritaTerbit()).slice(0, 3);
 const teks = {
   ms: {
     visi: 'Menjadi peneraju sistem pendidikan Islam yang menyeluruh, terunggul dan dihormati untuk membentuk tokoh dan masyarakat yang Rabbani.',
-    sraib: 'Sekolah rendah. Laman penuh tersedia.',
-    smaib: 'Sekolah menengah.',
-    tatib: 'Tahfiz.',
+    huraian: 'Akademi ini menaungi tiga institusi di Kampung Chengal Lempong, Kuantan. Pilih gerbang untuk masuk ke laman setiap unit.',
+    sraib: 'Sekolah rendah',
+    smaib: 'Sekolah menengah',
+    tatib: 'Tahfiz',
     daftarKecil: 'Borang dalam talian dan semakan status',
     ibuBapaKecil: 'Untuk ibu bapa murid sedia ada',
     stafKecil: 'Untuk guru dan kakitangan',
@@ -26,9 +27,10 @@ const teks = {
   },
   en: {
     visi: 'To lead a comprehensive, outstanding and respected system of Islamic education that shapes Rabbani leaders and a Rabbani community.',
-    sraib: 'Primary school. Full site available.',
-    smaib: 'Secondary school.',
-    tatib: 'Tahfiz.',
+    huraian: 'The academy is home to three institutions in Kampung Chengal Lempong, Kuantan. Choose a gateway to enter each unit’s site.',
+    sraib: 'Primary school',
+    smaib: 'Secondary school',
+    tatib: 'Tahfiz',
     daftarKecil: 'Online form and status check',
     ibuBapaKecil: 'For parents of current pupils',
     stafKecil: 'For teachers and staff',
@@ -47,31 +49,42 @@ const teks = {
       </div>
     </div>
   </section>
-  <div class="jalur" aria-hidden="true"></div>
 
   <section class="bahagian" aria-labelledby="tajuk-unit">
     <div class="bungkus">
       <div class="kepala-bahagian">
         <h2 id="tajuk-unit">{t.tigaUnit}</h2>
       </div>
-      <ul class="jubin besar">
+      <p style="max-width: 44rem; margin: 0;">{teks.huraian}</p>
+      <ul class="tiga-gerbang">
         <li>
-          <a href={href(lang, 'sraib')}>
-            <strong>SRAIB</strong>
-            <span>{teks.sraib}</span>
+          <a href={href(lang, 'sraib')} aria-label={`SRAIB: ${t.masuk}`}>
+            <div class="gerbang">
+              <div class="gerbang-dalam">
+                <strong>SRAIB</strong>
+                <span>{teks.sraib}</span>
+              </div>
+            </div>
           </a>
+          <p class="bawah"><a href={href(lang, 'sraib')}>{t.masuk}</a></p>
         </li>
         <li>
-          <div class="pegun">
-            <strong>SMAIB</strong>
-            <span>{teks.smaib} {t.akanMenyusul}.</span>
+          <div class="gerbang senyap">
+            <div class="gerbang-dalam">
+              <strong>SMAIB</strong>
+              <span>{teks.smaib}</span>
+            </div>
           </div>
+          <p class="bawah">{t.akanMenyusul}</p>
         </li>
         <li>
-          <div class="pegun">
-            <strong>TATIB</strong>
-            <span>{teks.tatib} {t.akanMenyusul}.</span>
+          <div class="gerbang senyap">
+            <div class="gerbang-dalam">
+              <strong>TATIB</strong>
+              <span>{teks.tatib}</span>
+            </div>
           </div>
+          <p class="bawah">{t.akanMenyusul}</p>
         </li>
       </ul>
     </div>

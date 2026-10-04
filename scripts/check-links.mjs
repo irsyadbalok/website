@@ -19,12 +19,19 @@ for (const file of htmlFiles(DIST)) {
   const html = readFileSync(file, 'utf8');
   for (const [, url] of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
     if (!url.startsWith('/') || url.startsWith('//')) continue; // pautan luar, mailto:, tel:, #
-    let path = url.split('#')[0].split('?')[0];
+    const [beforeHash, hash] = url.split('#');
+    let path = beforeHash.split('?')[0];
     if (base && path.startsWith(base)) path = path.slice(base.length);
     const target = join(DIST, decodeURIComponent(path));
     const ok = existsSync(target) && (statSync(target).isFile() || existsSync(join(target, 'index.html')));
     checked++;
-    if (!ok) broken.push(`${file}  ->  ${url}`);
+    if (!ok) {
+      broken.push(`${file}  ->  ${url}`);
+    } else if (hash) {
+      // Pautan ke bahagian halaman (#id): pastikan id itu wujud dalam halaman sasaran.
+      const page = statSync(target).isFile() ? target : join(target, 'index.html');
+      if (!readFileSync(page, 'utf8').includes(`id="${hash}"`)) broken.push(`${file}  ->  ${url} (tiada id)`);
+    }
   }
 }
 

@@ -31,23 +31,17 @@ export const MENU_UTAMA = [
   { path: 'hubungi', ms: 'Hubungi', en: 'Contact' },
 ];
 
-/** Menu bahagian SRAIB. Unit lain (SMAIB, TATIB) akan mendapat senarai sendiri. */
-export const MENU_SRAIB = [
-  { path: 'sraib/profil', ms: 'Profil', en: 'Profile' },
-  { path: 'sraib/tarbiyah', ms: 'Tarbiyah', en: 'Tarbiyah' },
-  { path: 'sraib/kurikulum', ms: 'Kurikulum', en: 'Curriculum' },
-  { path: 'sraib/hal-ehwal-murid', ms: 'Hal Ehwal Murid', en: 'Student Affairs' },
-  { path: 'sraib/kokurikulum', ms: 'Kokurikulum', en: 'Co-curriculum' },
-  { path: 'sraib/takwim', ms: 'Takwim', en: 'Calendar' },
-  { path: 'sraib/berita', ms: 'Berita', en: 'News' },
-];
-
 export const T = {
   ms: {
     langkau: 'Langkau ke kandungan',
     bahasaLain: 'English',
     bahasaLainLabel: 'Read this page in English',
     menuUtama: 'Menu utama',
+    menu: 'Menu',
+    submenu: 'Buka submenu',
+    utama: 'Utama',
+    profil: 'Profil',
+    hubungiPendek: 'Hubungi',
     menuBahagian: 'Menu SRAIB',
     daftar: 'Daftar pelajar baharu',
     daftarPendek: 'Daftar',
@@ -70,7 +64,7 @@ export const T = {
     dikemaskini: 'Disemak pada',
     sumber: 'Sumber',
     lagiBahagian: 'Lagi dalam bahagian ini',
-    tigaUnit: 'Tiga institusi, satu akademi',
+    tigaUnit: 'Tiga gerbang, satu akademi',
     akanMenyusul: 'Laman akan menyusul',
     masuk: 'Masuk ke laman SRAIB',
     sumbangan: 'Sumbangan',
@@ -91,6 +85,11 @@ export const T = {
     bahasaLain: 'Bahasa Melayu',
     bahasaLainLabel: 'Baca halaman ini dalam Bahasa Melayu',
     menuUtama: 'Main menu',
+    menu: 'Menu',
+    submenu: 'Open submenu',
+    utama: 'Home',
+    profil: 'Profile',
+    hubungiPendek: 'Contact',
     menuBahagian: 'SRAIB menu',
     daftar: 'Register a new pupil',
     daftarPendek: 'Register',
@@ -113,7 +112,7 @@ export const T = {
     dikemaskini: 'Reviewed on',
     sumber: 'Source',
     lagiBahagian: 'More in this section',
-    tigaUnit: 'Three institutions, one academy',
+    tigaUnit: 'Three gateways, one academy',
     akanMenyusul: 'Site to follow',
     masuk: 'Enter the SRAIB site',
     sumbangan: 'Donations',
