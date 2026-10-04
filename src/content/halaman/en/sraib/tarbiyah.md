@@ -31,3 +31,10 @@ In English: tarbiyah is the foundation of character. Discipline is not merely sc
 - Spiritual life
 - Surau and Imam Muda
 - School broadcasts (siar raya)
+
+## Tarbiyah Unit organisation
+
+| Post | Name |
+| --- | --- |
+| Adviser | Mohd Fikhrie bin Mussana, Assistant, Tarbiyah |
+| Secretary | Nur Fairuz binti Mohd Nooriza |

@@ -28,7 +28,7 @@ const ringkasan =
         berita.length === 0 ? (
           <p>{t.tiadaBerita}</p>
         ) : (
-          <ul class="senarai">
+          <ul class="senarai lebar">
             {berita.map((b) => (
               <li>
                 <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>

@@ -31,3 +31,10 @@ Disiplin bukan hanya sekadar memarahi, ia adalah ketegasan bersama dengan kasih 
 - Kerohanian
 - Surau dan Imam Muda
 - Siar raya
+
+## Carta organisasi Unit Tarbiyah
+
+| Jawatan | Nama |
+| --- | --- |
+| Penasihat | Mohd Fikhrie bin Mussana, Guru Penolong Tarbiyah |
+| Setiausaha | Nur Fairuz binti Mohd Nooriza |

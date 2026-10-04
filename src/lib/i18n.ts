@@ -20,6 +20,7 @@ export function asset(path: string): string {
 export const NAMA = {
   akademi: 'Akademi Pendidikan Irsyad Balok',
   sraib: 'Sekolah Rendah Islam Al-Irsyad Balok',
+  sraibPendek: 'SRI Al-Irsyad Balok',
   moto: 'Ke Arah Pembentukan Insan Rabbani',
 };
 
@@ -32,15 +33,13 @@ export const MENU_UTAMA = [
 
 /** Menu bahagian SRAIB. Unit lain (SMAIB, TATIB) akan mendapat senarai sendiri. */
 export const MENU_SRAIB = [
-  { path: 'sraib', ms: 'Utama', en: 'Home' },
   { path: 'sraib/profil', ms: 'Profil', en: 'Profile' },
+  { path: 'sraib/tarbiyah', ms: 'Tarbiyah', en: 'Tarbiyah' },
   { path: 'sraib/kurikulum', ms: 'Kurikulum', en: 'Curriculum' },
   { path: 'sraib/hal-ehwal-murid', ms: 'Hal Ehwal Murid', en: 'Student Affairs' },
-  { path: 'sraib/tarbiyah', ms: 'Tarbiyah', en: 'Tarbiyah' },
   { path: 'sraib/kokurikulum', ms: 'Kokurikulum', en: 'Co-curriculum' },
   { path: 'sraib/takwim', ms: 'Takwim', en: 'Calendar' },
   { path: 'sraib/berita', ms: 'Berita', en: 'News' },
-  { path: 'sraib/pendaftaran', ms: 'Pendaftaran', en: 'Admission' },
 ];
 
 export const T = {
@@ -51,6 +50,10 @@ export const T = {
     menuUtama: 'Menu utama',
     menuBahagian: 'Menu SRAIB',
     daftar: 'Daftar pelajar baharu',
+    daftarPendek: 'Daftar',
+    kerjasama: 'Kerjasama dan tajaan',
+    hubungi: 'Hubungi kami',
+    bacaLanjut: 'Baca lanjut',
     hubungiPejabat: 'Hubungi pejabat',
     beritaTerkini: 'Berita terkini',
     semuaBerita: 'Semua berita',
@@ -67,7 +70,7 @@ export const T = {
     dikemaskini: 'Disemak pada',
     sumber: 'Sumber',
     lagiBahagian: 'Lagi dalam bahagian ini',
-    tigaUnit: 'Tiga gerbang, satu akademi',
+    tigaUnit: 'Tiga institusi, satu akademi',
     akanMenyusul: 'Laman akan menyusul',
     masuk: 'Masuk ke laman SRAIB',
     sumbangan: 'Sumbangan',
@@ -90,6 +93,10 @@ export const T = {
     menuUtama: 'Main menu',
     menuBahagian: 'SRAIB menu',
     daftar: 'Register a new pupil',
+    daftarPendek: 'Register',
+    kerjasama: 'Partnership and sponsorship',
+    hubungi: 'Contact us',
+    bacaLanjut: 'Read more',
     hubungiPejabat: 'Contact the office',
     beritaTerkini: 'Latest news',
     semuaBerita: 'All news',
@@ -106,7 +113,7 @@ export const T = {
     dikemaskini: 'Reviewed on',
     sumber: 'Source',
     lagiBahagian: 'More in this section',
-    tigaUnit: 'Three gateways, one academy',
+    tigaUnit: 'Three institutions, one academy',
     akanMenyusul: 'Site to follow',
     masuk: 'Enter the SRAIB site',
     sumbangan: 'Donations',

@@ -113,13 +113,26 @@ content:
     type: file
     path: src/content/tetapan/laman.yaml
     fields:
-      - { name: telefon, label: Telefon, type: string }
-      - { name: emel, label: E-mel, type: string }
       - { name: alamat, label: Alamat (satu baris setiap entri), type: string, list: true }
       - { name: waktu_pejabat, label: Waktu pejabat, type: string }
-      - { name: facebook, label: Pautan Facebook, type: string }
-      - { name: instagram, label: Pautan Instagram, type: string }
-      - { name: tiktok, label: Nama akaun TikTok, type: string }
+      - name: sraib
+        label: SRAIB
+        type: object
+        fields: &hubungan
+          - { name: telefon, label: Telefon, type: string }
+          - { name: emel, label: E-mel, type: string }
+          - { name: facebook, label: Pautan Facebook, type: string }
+          - { name: instagram, label: Pautan Instagram, type: string }
+          - { name: tiktok, label: Pautan TikTok, type: string }
+          - name: gambar_utama
+            label: Gambar utama laman
+            description: Gambar landskap lebar untuk bahagian atas laman utama. Kosongkan untuk memaparkan lencana sekolah.
+            type: image
+          - { name: gambar_utama_alt, label: Teks alt gambar utama, type: string }
+      - name: akademi
+        label: Akademi (APIB)
+        type: object
+        fields: *hubungan
       - name: pautan
         label: Pautan sistem sekolah
         type: object

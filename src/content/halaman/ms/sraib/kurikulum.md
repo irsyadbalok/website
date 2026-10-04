@@ -44,3 +44,10 @@ Setiap mata pelajaran diurus oleh satu panitia:
 - Bilik Sains
 - Bengkel Reka Bentuk dan Teknologi (RBT)
 - Bilik Komputer
+
+## Peneraju bidang kurikulum
+
+| Jawatan | Nama |
+| --- | --- |
+| Guru Besar | Salmah binti Mat Yusoff |
+| Guru Penolong Kanan Pentadbiran | Nor Zalina binti Abdul Latif |

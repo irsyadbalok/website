@@ -44,3 +44,10 @@ Each subject is managed by a subject panel:
 - Science Room
 - Design and Technology (RBT) Workshop
 - Computer Room
+
+## Curriculum leadership
+
+| Post | Name |
+| --- | --- |
+| Headmistress | Salmah binti Mat Yusoff |
+| Senior Assistant, Administration | Nor Zalina binti Abdul Latif |

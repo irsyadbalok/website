@@ -1,19 +1,37 @@
-# Butiran sekolah yang dipaparkan di seluruh laman. Sumber: Buku Pengurusan sesi 2026, 1.1.6 Profil Sekolah.
-telefon: "09-5449188"
-emel: sr.irsyadbalok@gmail.com
+# Butiran yang dipaparkan di seluruh laman.
+# Setiap unit mempunyai butiran hubungan dan media sosial sendiri. Medan kosong tidak dipaparkan.
 alamat:
   - "Lot 16/1224, Kg Chengal Lempong"
   - "26100 Kuantan, Pahang Darul Makmur"
-facebook: https://www.facebook.com/irsyadbalok
-instagram: https://instagram.com/irsyadbalok.official
-tiktok: "SRI Al-Irsyad Balok"
+
+# Akademi Pendidikan Irsyad Balok (APIB). Menunggu pengesahan daripada APIB.
+akademi:
+  telefon: ""
+  emel: ""
+  facebook: ""
+  instagram: ""
+  tiktok: ""
+  gambar_utama: ""
+  gambar_utama_alt: ""
+
+# Sekolah Rendah Islam Al-Irsyad Balok. Sumber: Buku Pengurusan sesi 2026 dan pengesahan penyelenggara laman.
+sraib:
+  telefon: "09-5449188"
+  emel: sr.irsyadbalok@gmail.com
+  facebook: https://www.facebook.com/irsyadbalok
+  instagram: https://www.instagram.com/al_irsyadbalok
+  tiktok: https://www.tiktok.com/@irsyadbalok
+  gambar_utama: ""
+  gambar_utama_alt: ""
+
 pautan:
   pendaftaran: "https://my21.awfatech.com/main/appsps/stureg/stureg_status.php?sysapp=irsyadbalok"
   ibu_bapa: "https://my21.awfatech.com/main/appparent/adm/index.php?sysapp=irsyadbalok&apps=parent"
   staf: "https://my21.awfatech.com/irsyadbalok"
+
 # Pautan pembayaran atau sumbangan. Kosong buat masa ini (ditangguhkan).
-# Contoh entri:  - { label: "Nama", label_en: "Name", url: "https://..." }
 sumbangan: []
+
 # Hebahan segera: jalur kuning di atas setiap halaman.
 hebahan:
   aktif: false

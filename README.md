@@ -29,7 +29,8 @@ Static website for Akademi Pendidikan Irsyad Balok. Phase 0 covers the academy h
 | `src/pages/[...path].astro` | Generates every URL in both languages |
 | `src/views/` | One template per page type |
 | `src/layouts/Base.astro` | Header, menus, footer |
-| `src/styles/global.css` | Colours, type and layout |
+| `src/styles/global.css` | Colours, type and layout (documented in `DESIGN.md`) |
+| `PRODUCT.md` | Who the site is for and what it must do |
 | `src/lib/i18n.ts` | Menus and interface text in both languages |
 
 ## Adding content without code

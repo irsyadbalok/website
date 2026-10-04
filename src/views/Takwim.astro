@@ -42,9 +42,9 @@ const nota =
       </p>
       {
         ikutBulan.map((b) => (
-          <section class="bulan" style="max-width: 48rem;">
+          <section class="bulan">
             <h2>{namaBulan(b.bulan, lang)}</h2>
-            <ul class="senarai">
+            <ul class="senarai lebar">
               {b.acara.map((a) => (
                 <li>
                   <span class="bila">{julat(a.mula, a.tamat, lang)}</span>

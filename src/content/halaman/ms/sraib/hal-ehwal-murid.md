@@ -35,3 +35,11 @@ Kami guru-guru SRI Al-Irsyad Balok dengan penuh kesedaran dan dedikasi akan menj
 7. Memupuk semangat permuafakatan dengan masyarakat sekeliling.
 8. Menyediakan perkhidmatan yang berkualiti kepada semua pihak.
 9. Menjayakan pengurusan persekitaran yang mesra alam dan hijau.
+
+## Carta organisasi Unit HEM
+
+| Jawatan | Nama |
+| --- | --- |
+| Penaung | Salmah binti Mat Yusoff, Guru Besar |
+| Penasihat | Majidah binti Dollah, Guru Penolong Kanan Hal Ehwal Murid |
+| Setiausaha | Nur Afifah binti Abdul Latif |

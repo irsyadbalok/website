@@ -1,7 +1,9 @@
 ---
-// Rangka semua halaman: kepala, menu, hebahan segera dan kaki laman.
-import '@fontsource-variable/bricolage-grotesque/wght.css';
-import '@fontsource-variable/instrument-sans/wght.css';
+// Rangka semua halaman: jalur atas, kepala dengan menu, hebahan segera dan kaki laman.
+// Menu dan butiran hubungan bertukar mengikut unit (akademi atau SRAIB).
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
+import '@fontsource-variable/open-sans/wght.css';
 import '../styles/global.css';
 import { getEntry } from 'astro:content';
 import { T, NAMA, MENU_UTAMA, MENU_SRAIB, href, asset, type Lang } from '../lib/i18n';
@@ -19,17 +21,19 @@ const t = T[lang];
 const lain: Lang = lang === 'ms' ? 'en' : 'ms';
 const unit = path === 'sraib' || path.startsWith('sraib/') ? 'sraib' : 'akademi';
 const tetapan = (await getEntry('tetapan', 'laman'))!.data;
+const hubungan = unit === 'sraib' ? tetapan.sraib : tetapan.akademi;
+const adaMedia = hubungan.facebook || hubungan.instagram || hubungan.tiktok;
 
-const namaLaman = unit === 'sraib' ? `SRAIB · ${NAMA.akademi}` : NAMA.akademi;
-const tajukPenuh = title === NAMA.akademi ? title : `${title} | ${namaLaman}`;
+const namaUnit = unit === 'sraib' ? NAMA.sraibPendek : NAMA.akademi;
+const tajukPenuh = title === NAMA.akademi ? title : `${title} | ${namaUnit}`;
 const kanonik = new URL(href(lang, path), Astro.site).toString();
+const menu = unit === 'sraib' ? MENU_SRAIB : MENU_UTAMA;
 
 const hebahan = tetapan.hebahan;
 const hebahanAktif = hebahan.aktif && hebahan.teks && (!hebahan.tamat || hebahan.tamat.getTime() >= Date.now() - 864e5);
 const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan.teks;
 
-const semasa = (p: string) => path === p || (p !== 'sraib' && path.startsWith(p + '/'));
-const semasaUtama = (p: string) => path === p || path.startsWith(p.split('/')[0] + '/') || path === p.split('/')[0];
+const semasa = (p: string) => path === p || path.startsWith(p + '/') || (p.includes('/') && path.startsWith(p.split('/')[0] + '/') && unit === 'akademi');
 ---
 
 <!doctype html>
@@ -46,7 +50,7 @@ const semasaUtama = (p: string) => path === p || path.startsWith(p.split('/')[0]
     <meta property="og:title" content={tajukPenuh} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#0b6b3c" />
+    <meta name="theme-color" content="#221e72" />
   </head>
   <body>
     <a class="langkau" href="#kandungan">{t.langkau}</a>
@@ -61,46 +65,34 @@ const semasaUtama = (p: string) => path === p || path.startsWith(p.split('/')[0]
       )
     }
 
+    <div class="jalur-atas">
+      <div class="bungkus">
+        <a href={href(lang)}>{NAMA.akademi}</a>
+        <a href={href(lain, path)} lang={lain} hreflang={lain} aria-label={t.bahasaLainLabel}>{t.bahasaLain}</a>
+      </div>
+    </div>
+
     <header class="kepala">
       <div class="bungkus kepala-baris">
-        <a class="jenama" href={href(lang)}>
-          <img src={asset('images/logo-sraib.webp')} alt="" width="320" height="370" />
-          <span>{NAMA.akademi}</span>
+        <a class="jenama" href={href(lang, unit === 'sraib' ? 'sraib' : '')}>
+          <img src={asset('images/logo-sraib-telus.webp')} alt="" width="360" height="415" />
+          <span>{namaUnit}</span>
         </a>
-        <nav aria-label={t.menuUtama}>
+        <nav aria-label={unit === 'sraib' ? t.menuBahagian : t.menuUtama}>
           <ul class="menu">
             {
-              MENU_UTAMA.map((m) => (
+              menu.map((m) => (
                 <li>
-                  <a href={href(lang, m.path)} aria-current={semasaUtama(m.path) ? 'true' : undefined}>
+                  <a href={href(lang, m.path)} aria-current={semasa(m.path) ? 'page' : undefined}>
                     {m[lang]}
                   </a>
                 </li>
               ))
             }
-            <li class="bahasa">
-              <a href={href(lain, path)} lang={lain} hreflang={lain} aria-label={t.bahasaLainLabel}>{t.bahasaLain}</a>
-            </li>
           </ul>
         </nav>
+        {unit === 'sraib' && <a class="butang kecil" href={href(lang, 'sraib/pendaftaran')}>{t.daftarPendek}</a>}
       </div>
-      {
-        unit === 'sraib' && (
-          <nav class="submenu" aria-label={t.menuBahagian}>
-            <div class="bungkus">
-              <ul>
-                {MENU_SRAIB.map((m) => (
-                  <li>
-                    <a href={href(lang, m.path)} aria-current={semasa(m.path) ? 'page' : undefined}>
-                      {m[lang]}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </nav>
-        )
-      }
     </header>
 
     <main id="kandungan">
@@ -111,11 +103,11 @@ const semasaUtama = (p: string) => path === p || path.startsWith(p.split('/')[0]
       <div class="bungkus">
         <div class="kaki-grid">
           <div>
-            <h2>{NAMA.sraib}</h2>
+            <h2>{unit === 'sraib' ? NAMA.sraib : NAMA.akademi}</h2>
             <address>
               {tetapan.alamat.map((baris) => <>{baris}<br /></>)}
-              {t.telefon}: <a href={`tel:${tetapan.telefon.replace(/[^0-9+]/g, '')}`}>{tetapan.telefon}</a><br />
-              {t.emel}: <a href={`mailto:${tetapan.emel}`}>{tetapan.emel}</a>
+              {hubungan.telefon && <>{t.telefon}: <a href={`tel:${hubungan.telefon.replace(/[^0-9+]/g, '')}`}>{hubungan.telefon}</a><br /></>}
+              {hubungan.emel && <>{t.emel}: <a href={`mailto:${hubungan.emel}`}>{hubungan.emel}</a></>}
             </address>
           </div>
           <div>
@@ -124,21 +116,21 @@ const semasaUtama = (p: string) => path === p || path.startsWith(p.split('/')[0]
               <li><a href={tetapan.pautan.pendaftaran} rel="noopener">{t.pendaftaran}</a></li>
               <li><a href={tetapan.pautan.ibu_bapa} rel="noopener">{t.ibuBapa}</a></li>
               <li><a href={tetapan.pautan.staf} rel="noopener">{t.staf}</a></li>
-              {
-                tetapan.sumbangan.map((s) => (
-                  <li><a href={s.url} rel="noopener">{lang === 'en' && s.label_en ? s.label_en : s.label}</a></li>
-                ))
-              }
+              <li><a href={href(lang, 'hubungi')}>{t.hubungi}</a></li>
             </ul>
           </div>
-          <div>
-            <h2>{t.mediaSosial}</h2>
-            <ul>
-              {tetapan.facebook && <li><a href={tetapan.facebook} rel="noopener">Facebook</a></li>}
-              {tetapan.instagram && <li><a href={tetapan.instagram} rel="noopener">Instagram</a></li>}
-              {tetapan.tiktok && <li>TikTok: {tetapan.tiktok}</li>}
-            </ul>
-          </div>
+          {
+            adaMedia && (
+              <div>
+                <h2>{t.mediaSosial}</h2>
+                <ul>
+                  {hubungan.facebook && <li><a href={hubungan.facebook} rel="noopener">Facebook</a></li>}
+                  {hubungan.instagram && <li><a href={hubungan.instagram} rel="noopener">Instagram</a></li>}
+                  {hubungan.tiktok && <li><a href={hubungan.tiktok} rel="noopener">TikTok</a></li>}
+                </ul>
+              </div>
+            )
+          }
         </div>
         <div class="kaki-bawah">
           <span>{t.hakCipta} © {new Date().getFullYear()} {NAMA.akademi}</span>

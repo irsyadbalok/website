@@ -76,3 +76,11 @@ Hunain, Badar, Khaibar and Mu’tah.
 - To enable more of the school’s participants to represent the district, state and country in co-curricular work.
 - To make pupils individuals who are always innovative and creative in any task.
 - To make the school atmosphere more attractive and enjoyable for pupils, in the effort to build an outstanding school culture.
+
+## Co-curriculum Planning Council
+
+| Post | Name |
+| --- | --- |
+| Chair | Salmah binti Mat Yusoff, Headmistress |
+| Deputy Chair | Mohd Sufian Shahidullah bin Yusoff, Senior Assistant, Co-curriculum |
+| Secretary | Anis Salsabila binti Mohamad Ghauth |

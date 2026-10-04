@@ -35,3 +35,11 @@ We, the teachers of SRI Al-Irsyad Balok, with full awareness and dedication, wil
 7. A spirit of consensus with the surrounding community.
 8. A quality service to all parties.
 9. Environmentally friendly and green management of the school surroundings.
+
+## Student Affairs Unit organisation
+
+| Post | Name |
+| --- | --- |
+| Patron | Salmah binti Mat Yusoff, Headmistress |
+| Adviser | Majidah binti Dollah, Senior Assistant, Student Affairs |
+| Secretary | Nur Afifah binti Abdul Latif |

@@ -76,3 +76,11 @@ Hunain, Badar, Khaibar dan Mu’tah.
 - Membolehkan lebih ramai peserta sekolah mewakili daerah, negeri dan negara dalam gerak kerja kokurikulum.
 - Menjadikan pelajar individu yang sentiasa bersifat inovatif dan kreatif dalam sebarang tugas.
 - Meningkatkan suasana sekolah yang lebih menarik dan menggembirakan pelajar dalam usaha melahirkan budaya sekolah yang unggul.
+
+## Majlis Perancangan Kokurikulum
+
+| Jawatan | Nama |
+| --- | --- |
+| Pengerusi | Salmah binti Mat Yusoff, Guru Besar |
+| Timbalan Pengerusi | Mohd Sufian Shahidullah bin Yusoff, Guru Penolong Kanan Kokurikulum |
+| Setiausaha | Anis Salsabila binti Mohamad Ghauth |

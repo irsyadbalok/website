@@ -11,3 +11,6 @@ Full reasoning is in the living doc "Irsyad Balok Website — Phase 0 Spec and A
 | — | Internal material in the book (staff rosters, duty lists, teacher codes) is not published | Proposed |
 | — | Online payments (ToyyibPay for fees) are on hold. No payment links, code or keys in this repository for now | Approved |
 | — | Only the five administrators are named by default. Unit pages may show an organisation chart of role-holders; ordinary teachers are never listed | Approved, rule for "role-holder" to be confirmed |
+| — | Design: conventional institutional layout in the SRAIB logo colours (indigo, sky, green). Clean home pages that link out to detail pages. See `DESIGN.md` | Approved |
+| — | Contact details and social media are kept per unit (SRAIB, academy). Academy details stay empty until APIB confirms them | Approved |
+| — | Organisation charts: unit committee office-bearers only, kept compact | Approved |

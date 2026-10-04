@@ -58,16 +58,25 @@ const takwim = defineCollection({
   }),
 });
 
+// Butiran hubungan dan media sosial bagi satu unit. Medan kosong tidak dipaparkan.
+const hubungan = z.object({
+  telefon: z.string().optional(),
+  emel: z.string().optional(),
+  facebook: z.string().optional(),
+  instagram: z.string().optional(),
+  tiktok: z.string().optional(),
+  // Gambar lebar penuh di laman utama unit. Jika kosong, lencana sekolah dipaparkan.
+  gambar_utama: z.string().optional(),
+  gambar_utama_alt: z.string().optional(),
+});
+
 const tetapan = defineCollection({
   loader: glob({ base: './src/content/tetapan', pattern: '*.yaml' }),
   schema: z.object({
-    telefon: z.string(),
-    emel: z.string(),
     alamat: z.array(z.string()),
     waktu_pejabat: z.string().optional(),
-    facebook: z.string().optional(),
-    instagram: z.string().optional(),
-    tiktok: z.string().optional(),
+    akademi: hubungan,
+    sraib: hubungan,
     pautan: z.object({
       pendaftaran: z.string(),
       ibu_bapa: z.string(),
