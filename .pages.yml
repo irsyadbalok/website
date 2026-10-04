@@ -1,0 +1,145 @@
+# Konfigurasi Pages CMS (https://pagescms.org): borang yang dilihat oleh editor.
+# Setiap borang menulis fail biasa dalam repositori ini; tiada pangkalan data.
+# NOTA: belum diuji terhadap Pages CMS sebenar. Uji selepas repositori berada di GitHub.
+
+media:
+  input: public/images/uploads
+  output: /images/uploads
+
+content:
+  - name: berita
+    label: Berita
+    type: collection
+    path: src/content/berita
+    filename: '{year}-{month}-{day}-{primary}.md'
+    view:
+      fields: [tajuk, tarikh, unit, status]
+      primary: tajuk
+      sort: [tarikh, tajuk]
+      default:
+        sort: tarikh
+        order: desc
+    fields:
+      - { name: tajuk, label: Tajuk, type: string, required: true }
+      - { name: tarikh, label: Tarikh, type: date, required: true }
+      - name: unit
+        label: Unit
+        type: select
+        required: true
+        default: sraib
+        options:
+          values:
+            - { value: akademi, label: Akademi (semua unit) }
+            - { value: sraib, label: SRAIB }
+            - { value: smaib, label: SMAIB }
+            - { value: tatib, label: TATIB }
+      - name: ringkasan
+        label: Ringkasan
+        description: Satu atau dua ayat. Dipaparkan dalam senarai berita.
+        type: text
+        required: true
+      - name: status
+        label: Status
+        description: Hanya berita berstatus "terbit" muncul di laman.
+        type: select
+        required: true
+        default: draf
+        options:
+          values:
+            - { value: draf, label: Draf (belum diterbitkan) }
+            - { value: terbit, label: Terbit }
+      - name: gambar
+        label: Gambar utama
+        description: Landskap. Pastikan ibu bapa telah memberi kebenaran jika ada wajah murid.
+        type: image
+      - name: gambar_alt
+        label: Teks alt gambar
+        description: Wajib jika ada gambar. Terangkan apa yang kelihatan, untuk pembaca skrin.
+        type: string
+      - { name: tajuk_en, label: Tajuk (English, pilihan), type: string }
+      - { name: ringkasan_en, label: Ringkasan (English, pilihan), type: text }
+      - { name: body, label: Isi, type: rich-text }
+
+  - name: halaman
+    label: Halaman tetap
+    type: collection
+    path: src/content/halaman
+    subfolders: true
+    view:
+      fields: [tajuk]
+      primary: tajuk
+    fields:
+      - { name: tajuk, label: Tajuk, type: string, required: true }
+      - { name: ringkasan, label: Ringkasan, type: text }
+      - { name: urutan, label: Urutan dalam senarai, type: number }
+      - { name: semakan, label: Tarikh semakan terakhir, type: date }
+      - { name: sumber, label: Sumber, type: string }
+      - name: perlu_sahkan
+        label: Nota menunggu pengesahan
+        description: Kosongkan apabila maklumat telah disahkan oleh sekolah.
+        type: text
+      - { name: body, label: Isi, type: rich-text }
+
+  - name: takwim
+    label: Takwim 2026
+    type: file
+    path: src/content/takwim/2026.yaml
+    fields:
+      - { name: tahun, label: Tahun, type: number }
+      - name: acara
+        label: Acara
+        type: object
+        list: true
+        fields:
+          - { name: tajuk, label: Acara, type: string, required: true }
+          - { name: tajuk_en, label: Acara (English, pilihan), type: string }
+          - { name: mula, label: Tarikh mula, type: date, required: true }
+          - { name: tamat, label: Tarikh tamat (jika lebih sehari), type: date }
+          - name: unit
+            label: Unit
+            type: select
+            default: sraib
+            options:
+              values: [akademi, sraib, smaib, tatib]
+          - name: kategori
+            label: Kategori
+            type: select
+            default: program
+            options:
+              values: [kokurikulum, akademik, cuti, program]
+
+  - name: tetapan
+    label: Tetapan laman
+    type: file
+    path: src/content/tetapan/laman.yaml
+    fields:
+      - { name: telefon, label: Telefon, type: string }
+      - { name: emel, label: E-mel, type: string }
+      - { name: alamat, label: Alamat (satu baris setiap entri), type: string, list: true }
+      - { name: waktu_pejabat, label: Waktu pejabat, type: string }
+      - { name: facebook, label: Pautan Facebook, type: string }
+      - { name: instagram, label: Pautan Instagram, type: string }
+      - { name: tiktok, label: Nama akaun TikTok, type: string }
+      - name: pautan
+        label: Pautan sistem sekolah
+        type: object
+        fields:
+          - { name: pendaftaran, label: Pendaftaran pelajar baharu, type: string }
+          - { name: ibu_bapa, label: E-Ibu Bapa, type: string }
+          - { name: staf, label: E-Staf, type: string }
+      - name: sumbangan
+        label: Pautan pembayaran atau sumbangan
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Nama, type: string }
+          - { name: label_en, label: Nama (English), type: string }
+          - { name: url, label: Pautan, type: string }
+      - name: hebahan
+        label: Hebahan segera
+        type: object
+        fields:
+          - { name: aktif, label: Paparkan hebahan, type: boolean }
+          - { name: teks, label: Teks hebahan, type: string }
+          - { name: teks_en, label: Teks hebahan (English), type: string }
+          - { name: tamat, label: Tarikh tamat, type: date }

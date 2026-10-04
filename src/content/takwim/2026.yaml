@@ -1,0 +1,16 @@
+# Sumber: Buku Pengurusan sesi 2026, 5.4 Takwim Kokurikulum SRAIB 2026.
+tahun: 2026
+acara:
+  - { tajuk: "Pembahagian murid kepada kelab dan persatuan sekolah", tajuk_en: "Pupils assigned to school clubs and societies", mula: 2026-01-12, tamat: 2026-01-31, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Larian Jasmani 2026", tajuk_en: "Larian Jasmani 2026 (fitness run)", mula: 2026-01-15, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Taklimat buku PAJSK murid (semua murid Tahap 2)", tajuk_en: "PAJSK book briefing (all Level 2 pupils)", mula: 2026-02-04, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Proses pendaftaran semua kelab", tajuk_en: "Registration for all clubs", mula: 2026-04-01, tamat: 2026-04-30, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Penglibatan kejohanan sukan zon, daerah dan negeri", tajuk_en: "Zone, district and state sports tournaments", mula: 2026-04-01, tamat: 2026-08-31, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Merentas desa rumah sukan", tajuk_en: "Sports-house cross-country run", mula: 2026-07-17, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Hari Sukan Sekolah dwi tahunan", tajuk_en: "Biennial School Sports Day", mula: 2026-07-25, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Penglibatan kejohanan sukan dan pentas zon, daerah dan negeri", tajuk_en: "Zone, district and state sports and stage competitions", mula: 2026-09-01, tamat: 2026-09-30, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Hari Kesenian Islam", tajuk_en: "Islamic Arts Day", mula: 2026-09-06, unit: sraib, kategori: program }
+  - { tajuk: "Mukhayyam Tarbawi (semua badan beruniform)", tajuk_en: "Mukhayyam Tarbawi (all uniformed bodies)", mula: 2026-09-26, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Penglibatan kejohanan sukan dan pentas zon, daerah dan negeri", tajuk_en: "Zone, district and state sports and stage competitions", mula: 2026-10-01, tamat: 2026-10-31, unit: sraib, kategori: kokurikulum }
+  - { tajuk: "Lawatan Tahun 1, 2 dan 3", tajuk_en: "Year 1, 2 and 3 school trips", mula: 2026-11-23, tamat: 2026-11-25, unit: sraib, kategori: program }
+  - { tajuk: "Hari Bola", tajuk_en: "Hari Bola (ball games day)", mula: 2026-11-24, tamat: 2026-11-25, unit: sraib, kategori: kokurikulum }

@@ -1,0 +1,83 @@
+---
+// Halaman tetap daripada fail Markdown (src/content/halaman).
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { T, href, tarikh, type Lang } from '../lib/i18n';
+import { halamanUntuk, halamanBahagian, tetapanLaman } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+  path: string;
+}
+const { lang, path } = Astro.props;
+const t = T[lang];
+const { entry, tiadaTerjemahan } = await halamanUntuk(lang, path);
+const { Content } = await render(entry);
+const lain = await halamanBahagian(lang, path);
+const tetapan = await tetapanLaman();
+const d = entry.data;
+---
+
+<Base lang={lang} path={path} title={d.tajuk} description={d.ringkasan}>
+  <div class="tajuk-halaman">
+    <div class="bungkus">
+      <h1 lang={tiadaTerjemahan ? 'ms' : undefined}>{d.tajuk}</h1>
+      {d.ringkasan && <p lang={tiadaTerjemahan ? 'ms' : undefined}>{d.ringkasan}</p>}
+    </div>
+  </div>
+
+  <div class="bahagian">
+    <div class="bungkus">
+      {tiadaTerjemahan && <p class="nota biru">{t.bmSahaja}</p>}
+      {
+        d.perlu_sahkan && (
+          <p class="nota">
+            <strong>{t.perluSahkan}</strong>
+            {d.perlu_sahkan}
+          </p>
+        )
+      }
+
+      <div class="prosa" lang={tiadaTerjemahan ? 'ms' : undefined}>
+        <Content />
+      </div>
+
+      {
+        path === 'sraib/pendaftaran' && (
+          <div class="butang-baris">
+            <a class="butang" href={tetapan.pautan.pendaftaran} rel="noopener">
+              {lang === 'ms' ? 'Buka borang pendaftaran' : 'Open the registration form'} {t.pautanLuar}
+            </a>
+            <a class="butang kedua" href={href(lang, 'hubungi')}>{t.hubungiPejabat}</a>
+          </div>
+        )
+      }
+
+      {
+        (d.semakan || d.sumber) && (
+          <p class="meta-halaman">
+            {d.semakan && <>{t.dikemaskini} {tarikh(d.semakan, lang)}. </>}
+            {d.sumber && <>{t.sumber}: {d.sumber}.</>}
+          </p>
+        )
+      }
+    </div>
+  </div>
+
+  {
+    lain.length > 0 && (
+      <div class="bahagian">
+        <div class="bungkus">
+          <h2 style="font-size: 1.3rem;">{t.lagiBahagian}</h2>
+          <ul class="lagi">
+            {lain.map((h) => (
+              <li>
+                <a href={href(lang, h.path)}>{h.tajuk}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
+  }
+</Base>

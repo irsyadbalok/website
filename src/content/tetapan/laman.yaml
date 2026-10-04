@@ -1,0 +1,21 @@
+# Butiran sekolah yang dipaparkan di seluruh laman. Sumber: Buku Pengurusan sesi 2026, 1.1.6 Profil Sekolah.
+telefon: "09-5449188"
+emel: sr.irsyadbalok@gmail.com
+alamat:
+  - "Lot 16/1224, Kg Chengal Lempong"
+  - "26100 Kuantan, Pahang Darul Makmur"
+facebook: https://www.facebook.com/irsyadbalok
+instagram: https://instagram.com/irsyadbalok.official
+tiktok: "SRI Al-Irsyad Balok"
+pautan:
+  pendaftaran: "https://my21.awfatech.com/main/appsps/stureg/stureg_status.php?sysapp=irsyadbalok"
+  ibu_bapa: "https://my21.awfatech.com/main/appparent/adm/index.php?sysapp=irsyadbalok&apps=parent"
+  staf: "https://my21.awfatech.com/irsyadbalok"
+# Pautan pembayaran atau sumbangan. Kosong buat masa ini (ditangguhkan).
+# Contoh entri:  - { label: "Nama", label_en: "Name", url: "https://..." }
+sumbangan: []
+# Hebahan segera: jalur kuning di atas setiap halaman.
+hebahan:
+  aktif: false
+  teks: ""
+  teks_en: ""

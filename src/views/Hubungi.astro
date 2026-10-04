@@ -1,0 +1,68 @@
+---
+// Hubungi kami. Semua butiran datang daripada src/content/tetapan/laman.yaml.
+import Base from '../layouts/Base.astro';
+import { T, NAMA, type Lang } from '../lib/i18n';
+import { tetapanLaman } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = T[lang];
+const s = await tetapanLaman();
+const tajuk = lang === 'ms' ? 'Hubungi kami' : 'Contact us';
+const ringkasan =
+  lang === 'ms' ? 'Alamat, telefon dan e-mel pejabat Sekolah Rendah Islam Al-Irsyad Balok.' : 'Address, telephone and e-mail of the Sekolah Rendah Islam Al-Irsyad Balok office.';
+const peta = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(NAMA.sraib + ', Kuantan, Pahang')}`;
+---
+
+<Base lang={lang} path="hubungi" title={tajuk} description={ringkasan}>
+  <div class="tajuk-halaman">
+    <div class="bungkus">
+      <h1>{tajuk}</h1>
+      <p>{ringkasan}</p>
+    </div>
+  </div>
+  <div class="bahagian">
+    <div class="bungkus">
+      <div class="prosa">
+        <table>
+          <tbody>
+            <tr>
+              <td>{t.alamat}</td>
+              <td>
+                {NAMA.sraib}<br />
+                {s.alamat.map((baris) => <>{baris}<br /></>)}
+                <a href={peta} rel="noopener">{t.bukaPeta}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>{t.telefon}</td>
+              <td><a href={`tel:${s.telefon.replace(/[^0-9+]/g, '')}`}>{s.telefon}</a></td>
+            </tr>
+            <tr>
+              <td>{t.emel}</td>
+              <td><a href={`mailto:${s.emel}`}>{s.emel}</a></td>
+            </tr>
+            {
+              s.waktu_pejabat && (
+                <tr>
+                  <td>{lang === 'ms' ? 'Waktu pejabat' : 'Office hours'}</td>
+                  <td>{s.waktu_pejabat}</td>
+                </tr>
+              )
+            }
+            <tr>
+              <td>{t.mediaSosial}</td>
+              <td>
+                {s.facebook && <><a href={s.facebook} rel="noopener">Facebook</a><br /></>}
+                {s.instagram && <><a href={s.instagram} rel="noopener">Instagram</a><br /></>}
+                {s.tiktok && <>TikTok: {s.tiktok}</>}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</Base>

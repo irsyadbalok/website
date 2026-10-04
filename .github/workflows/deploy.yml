@@ -1,0 +1,49 @@
+# Bina dan terbitkan laman ke GitHub Pages.
+# Berjalan apabila ada perubahan pada cabang main (termasuk simpanan dari Pages CMS),
+# dan setiap pagi Isnin supaya senarai "Acara akan datang" sentiasa terkini.
+name: Terbitkan laman
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 22 * * 0' # Ahad 22:00 UTC = Isnin 06:00 waktu Malaysia
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Bina laman
+        uses: withastro/action@v6
+        env:
+          # Alamat dan laluan asas dibekalkan oleh GitHub, jadi fail ini tidak perlu
+          # diubah apabila laman berpindah dari alamat prototaip ke domain sebenar.
+          SITE_URL: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - name: Semak pautan rosak
+        run: node scripts/check-links.mjs
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,150 @@
+---
+// Laman utama akademi: tiga gerbang (unit), pautan pantas dan berita terkini.
+import Base from '../layouts/Base.astro';
+import { T, NAMA, href, tarikh, type Lang } from '../lib/i18n';
+import { beritaTerbit, tajukBerita, ringkasanBerita, tetapanLaman } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = T[lang];
+const tetapan = await tetapanLaman();
+const berita = (await beritaTerbit()).slice(0, 3);
+
+const teks = {
+  ms: {
+    visi: 'Menjadi peneraju sistem pendidikan Islam yang menyeluruh, terunggul dan dihormati untuk membentuk tokoh dan masyarakat yang Rabbani.',
+    huraian: 'Akademi ini menaungi tiga institusi di Kampung Chengal Lempong, Kuantan. Pilih gerbang untuk masuk ke laman setiap unit.',
+    sraib: 'Sekolah rendah',
+    smaib: 'Sekolah menengah',
+    tatib: 'Tahfiz',
+    daftarKecil: 'Borang dalam talian dan semakan status',
+    ibuBapaKecil: 'Untuk ibu bapa murid sedia ada',
+    stafKecil: 'Untuk guru dan kakitangan',
+    sumbanganKecil: 'Pembayaran dalam talian',
+    desc: 'Laman rasmi Akademi Pendidikan Irsyad Balok, Kuantan: Sekolah Rendah Islam Al-Irsyad Balok (SRAIB), SMAIB dan TATIB.',
+  },
+  en: {
+    visi: 'To lead a comprehensive, outstanding and respected system of Islamic education that shapes Rabbani leaders and a Rabbani community.',
+    huraian: 'The academy is home to three institutions in Kampung Chengal Lempong, Kuantan. Choose a gateway to enter each unit’s site.',
+    sraib: 'Primary school',
+    smaib: 'Secondary school',
+    tatib: 'Tahfiz',
+    daftarKecil: 'Online form and status check',
+    ibuBapaKecil: 'For parents of current pupils',
+    stafKecil: 'For teachers and staff',
+    sumbanganKecil: 'Online payment',
+    desc: 'Official site of Akademi Pendidikan Irsyad Balok, Kuantan: Sekolah Rendah Islam Al-Irsyad Balok (SRAIB), SMAIB and TATIB.',
+  },
+}[lang];
+---
+
+<Base lang={lang} path="" title={NAMA.akademi} description={teks.desc}>
+  <section class="pembuka">
+    <div class="bungkus">
+      <div class="pembuka-hab">
+        <h1>{NAMA.akademi}</h1>
+        <p class="moto">{NAMA.moto}</p>
+        <p>{teks.visi}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bahagian" aria-labelledby="tajuk-unit">
+    <div class="bungkus">
+      <div class="kepala-bahagian">
+        <h2 id="tajuk-unit">{t.tigaUnit}</h2>
+      </div>
+      <p style="max-width: 44rem;">{teks.huraian}</p>
+      <ul class="tiga-gerbang">
+        <li>
+          <a href={href(lang, 'sraib')} aria-label={`SRAIB: ${t.masuk}`}>
+            <div class="gerbang">
+              <div class="gerbang-dalam">
+                <strong>SRAIB</strong>
+                <span>{teks.sraib}</span>
+              </div>
+            </div>
+          </a>
+          <p class="bawah"><a href={href(lang, 'sraib')}>{t.masuk}</a></p>
+        </li>
+        <li>
+          <div class="gerbang senyap">
+            <div class="gerbang-dalam">
+              <strong>SMAIB</strong>
+              <span>{teks.smaib}</span>
+            </div>
+          </div>
+          <p class="bawah">{t.akanMenyusul}</p>
+        </li>
+        <li>
+          <div class="gerbang senyap">
+            <div class="gerbang-dalam">
+              <strong>TATIB</strong>
+              <span>{teks.tatib}</span>
+            </div>
+          </div>
+          <p class="bawah">{t.akanMenyusul}</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="bahagian" aria-labelledby="tajuk-pautan">
+    <div class="bungkus">
+      <div class="kepala-bahagian">
+        <h2 id="tajuk-pautan">{t.pautanPantas}</h2>
+      </div>
+      <ul class="pautan-pantas">
+        <li>
+          <a href={tetapan.pautan.pendaftaran} rel="noopener">{t.pendaftaran}<small>{teks.daftarKecil}</small></a>
+        </li>
+        <li>
+          <a href={tetapan.pautan.ibu_bapa} rel="noopener">{t.ibuBapa}<small>{teks.ibuBapaKecil}</small></a>
+        </li>
+        <li>
+          <a href={tetapan.pautan.staf} rel="noopener">{t.staf}<small>{teks.stafKecil}</small></a>
+        </li>
+        {
+          tetapan.sumbangan.map((s) => (
+            <li>
+              <a href={s.url} rel="noopener">
+                {lang === 'en' && s.label_en ? s.label_en : s.label}
+                <small>{teks.sumbanganKecil}</small>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="bahagian" aria-labelledby="tajuk-berita">
+    <div class="bungkus">
+      <div class="kepala-bahagian">
+        <h2 id="tajuk-berita">{t.beritaTerkini}</h2>
+        <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
+      </div>
+      {
+        berita.length === 0 ? (
+          <p>{t.tiadaBerita}</p>
+        ) : (
+          <ul class="senarai">
+            {berita.map((b) => (
+              <li>
+                <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>
+                <div>
+                  <h3>
+                    <a href={href(lang, `sraib/berita/${b.id}`)}>{tajukBerita(b, lang)}</a>
+                  </h3>
+                  <p>{ringkasanBerita(b, lang)}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+</Base>

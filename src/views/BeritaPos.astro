@@ -1,0 +1,43 @@
+---
+// Satu berita. Isi ditulis dalam BM; tajuk dan ringkasan boleh ada versi Inggeris.
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { T, href, asset, tarikh, type Lang } from '../lib/i18n';
+import { tajukBerita, ringkasanBerita } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+  id: string;
+}
+const { lang, id } = Astro.props;
+const t = T[lang];
+const pos = (await getEntry('berita', id))!;
+const { Content } = await render(pos);
+const d = pos.data;
+---
+
+<Base lang={lang} path={`sraib/berita/${id}`} title={tajukBerita(pos, lang)} description={ringkasanBerita(pos, lang)}>
+  <article>
+    <div class="tajuk-halaman">
+      <div class="bungkus">
+        <p style="margin: 0 0 0.5rem; font-size: 1rem;">
+          <time datetime={d.tarikh.toISOString().slice(0, 10)}>{tarikh(d.tarikh, lang)}</time>
+        </p>
+        <h1>{tajukBerita(pos, lang)}</h1>
+        <p>{ringkasanBerita(pos, lang)}</p>
+      </div>
+    </div>
+    <div class="bahagian">
+      <div class="bungkus">
+        {lang === 'en' && <p class="nota biru">{t.bmSahaja}</p>}
+        {d.gambar && <img src={asset(d.gambar)} alt={d.gambar_alt} style="max-width: 44rem; width: 100%; border-radius: 0.4rem; margin-bottom: 1.5rem;" />}
+        <div class="prosa" lang="ms">
+          <Content />
+        </div>
+        <p class="meta-halaman">
+          <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
+        </p>
+      </div>
+    </div>
+  </article>
+</Base>

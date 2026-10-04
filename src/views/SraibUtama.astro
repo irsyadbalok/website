@@ -1,0 +1,173 @@
+---
+// Laman utama SRAIB.
+import Base from '../layouts/Base.astro';
+import { T, NAMA, href, asset, tarikh, julat, type Lang } from '../lib/i18n';
+import { beritaTerbit, tajukBerita, ringkasanBerita, acaraTakwim } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = T[lang];
+const berita = (await beritaTerbit(['sraib', 'akademi'])).slice(0, 3);
+
+// Acara yang belum tamat pada hari laman dibina. Laman dibina semula setiap minggu (lihat deploy.yml).
+const hariIni = Date.now() - 864e5;
+const acara = (await acaraTakwim(['sraib', 'akademi'])).filter((a) => (a.tamat ?? a.mula).getTime() >= hariIni).slice(0, 4);
+
+const teks = {
+  ms: {
+    pengenalan:
+      'Sekolah rendah Islam swasta di Kampung Chengal Lempong, Kuantan, yang ditubuhkan pada tahun 2000 atas kesedaran masyarakat setempat terhadap pendidikan berteraskan Islam.',
+    fakta: [
+      ['Ditubuhkan', '2000'],
+      ['Status', 'Sekolah swasta'],
+      ['Sesi persekolahan', 'Satu sesi'],
+      ['Guru', '69 orang'],
+    ],
+    petikan:
+      'Tahun 2026 Sekolah Rendah Islam Al-Irsyad Balok (SRAIB) lebih menumpukan kepada “awwaludiin ma’rifatullah”. Setelah warga SRAIB mengenali penciptaNya akan terbentuk adab yang elok seiring dengan kecerdasan minda.',
+    penulis: 'Salmah binti Mat Yusoff, Guru Besar',
+    kenali: [
+      ['sraib/kurikulum', 'Kurikulum', 'Mata pelajaran, fokus akademik 2026 dan bilik sumber'],
+      ['sraib/tarbiyah', 'Tarbiyah', 'Al-Quran, pra tahfiz, kerohanian dan disiplin'],
+      ['sraib/kokurikulum', 'Kokurikulum', 'Badan beruniform, kelab, sukan dan rumah sukan'],
+      ['sraib/hal-ehwal-murid', 'Hal Ehwal Murid', 'Visi, misi dan piagam pelanggan unit HEM'],
+    ],
+    desc: 'Sekolah Rendah Islam Al-Irsyad Balok (SRAIB), Kuantan: pendaftaran, kurikulum, kokurikulum, takwim dan berita sekolah.',
+  },
+  en: {
+    pengenalan:
+      'A private Islamic primary school in Kampung Chengal Lempong, Kuantan, founded in 2000 out of the local community’s concern for Islamic-based education.',
+    fakta: [
+      ['Founded', '2000'],
+      ['Status', 'Private school'],
+      ['School session', 'Single session'],
+      ['Teachers', '69'],
+    ],
+    petikan:
+      'In 2026, Sekolah Rendah Islam Al-Irsyad Balok (SRAIB) places its focus on “awwaludiin ma’rifatullah”. Once the SRAIB community knows its Creator, good manners will take shape alongside a sharp mind.',
+    penulis: 'Salmah binti Mat Yusoff, Headmistress',
+    kenali: [
+      ['sraib/kurikulum', 'Curriculum', 'Subjects, the 2026 academic focus and resource rooms'],
+      ['sraib/tarbiyah', 'Tarbiyah', 'Al-Quran, pre-tahfiz, spiritual life and discipline'],
+      ['sraib/kokurikulum', 'Co-curriculum', 'Uniformed bodies, clubs, sports and sports houses'],
+      ['sraib/hal-ehwal-murid', 'Student Affairs', 'Vision, mission and client charter of the unit'],
+    ],
+    desc: 'Sekolah Rendah Islam Al-Irsyad Balok (SRAIB), Kuantan: admission, curriculum, co-curriculum, calendar and school news.',
+  },
+}[lang];
+---
+
+<Base lang={lang} path="sraib" title={NAMA.sraib} description={teks.desc}>
+  <section class="pembuka">
+    <div class="bungkus pembuka-grid">
+      <div class="pembuka-teks">
+        <h1>{NAMA.sraib}</h1>
+        <p class="moto">{NAMA.moto}</p>
+        <p>{teks.pengenalan}</p>
+        <div class="butang-baris">
+          <a class="butang" href={href(lang, 'sraib/pendaftaran')}>{t.daftar}</a>
+          <a class="butang kedua" href={href(lang, 'hubungi')}>{t.hubungiPejabat}</a>
+        </div>
+      </div>
+      <img class="pembuka-logo" src={asset('images/logo-sraib.webp')} alt={lang === 'ms' ? 'Logo SRAIB' : 'SRAIB logo'} width="320" height="370" />
+    </div>
+  </section>
+
+  <section class="bahagian gelap" aria-labelledby="tajuk-fakta">
+    <div class="bungkus">
+      <h2 id="tajuk-fakta" style="font-size: 1.1rem; margin-bottom: 1.25rem;">{t.faktaRingkas}</h2>
+      <dl class="fakta">
+        {
+          teks.fakta.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="bahagian" aria-labelledby="tajuk-tinta">
+    <div class="bungkus petikan">
+      <h2 id="tajuk-tinta">Tinta Guru Besar</h2>
+      <blockquote lang="ms">{teks.petikan}</blockquote>
+      <p><cite>{teks.penulis}</cite></p>
+      <p><a href={href(lang, 'sraib/tinta-guru-besar')}>{t.bacaPenuh}</a></p>
+    </div>
+  </section>
+
+  <section class="bahagian" aria-labelledby="tajuk-kenali">
+    <div class="bungkus">
+      <div class="kepala-bahagian">
+        <h2 id="tajuk-kenali">{t.kenali}</h2>
+        <a href={href(lang, 'sraib/profil')}>{lang === 'ms' ? 'Profil sekolah' : 'School profile'}</a>
+      </div>
+      <ul class="pautan-pantas">
+        {
+          teks.kenali.map(([p, tajuk, kecil]) => (
+            <li>
+              <a href={href(lang, p)}>
+                {tajuk}
+                <small>{kecil}</small>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="bahagian">
+    <div class="bungkus dua-lajur">
+      <div aria-labelledby="tajuk-acara">
+        <div class="kepala-bahagian">
+          <h2 id="tajuk-acara">{t.acaraAkanDatang}</h2>
+          <a href={href(lang, 'sraib/takwim')}>{t.takwimPenuh}</a>
+        </div>
+        {
+          acara.length === 0 ? (
+            <p>{t.tiadaAcara}</p>
+          ) : (
+            <ul class="senarai">
+              {acara.map((a) => (
+                <li style="grid-template-columns: 1fr;">
+                  <span class="bila">{julat(a.mula, a.tamat, lang)} {a.mula.getUTCFullYear()}</span>
+                  <span>{lang === 'en' && a.tajuk_en ? a.tajuk_en : a.tajuk}</span>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+      <div aria-labelledby="tajuk-berita">
+        <div class="kepala-bahagian">
+          <h2 id="tajuk-berita">{t.beritaTerkini}</h2>
+          <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
+        </div>
+        {
+          berita.length === 0 ? (
+            <p>{t.tiadaBerita}</p>
+          ) : (
+            <ul class="senarai">
+              {berita.map((b) => (
+                <li style="grid-template-columns: 1fr;">
+                  <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>
+                  <div>
+                    <h3>
+                      <a href={href(lang, `sraib/berita/${b.id}`)}>{tajukBerita(b, lang)}</a>
+                    </h3>
+                    <p>{ringkasanBerita(b, lang)}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,60 @@
+---
+// Takwim SRAIB, dikumpulkan mengikut bulan.
+import Base from '../layouts/Base.astro';
+import { julat, namaBulan, type Lang } from '../lib/i18n';
+import { acaraTakwim } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const acara = await acaraTakwim(['sraib', 'akademi']);
+const tahun = acara[0]?.mula.getUTCFullYear() ?? new Date().getUTCFullYear();
+
+const ikutBulan = Array.from({ length: 12 }, (_, i) => ({
+  bulan: i,
+  acara: acara.filter((a) => a.mula.getUTCMonth() === i),
+})).filter((b) => b.acara.length > 0);
+
+const tajuk = lang === 'ms' ? `Takwim ${tahun}` : `Calendar ${tahun}`;
+const ringkasan =
+  lang === 'ms'
+    ? 'Acara kokurikulum SRAIB sepanjang tahun. Takwim persekolahan dan cuti akan ditambah.'
+    : 'SRAIB co-curricular events through the year. Term dates and holidays will be added.';
+const nota =
+  lang === 'ms'
+    ? 'Takwim persekolahan KPM, cuti perayaan dan hari kelepasan am Pahang dalam Buku Pengurusan berbentuk gambar. Ia perlu ditaip semula sebelum boleh dipaparkan di sini.'
+    : 'The KPM school terms, festive holidays and Pahang public holidays appear as images in the management book. They must be retyped before they can be shown here.';
+---
+
+<Base lang={lang} path="sraib/takwim" title={tajuk} description={ringkasan}>
+  <div class="tajuk-halaman">
+    <div class="bungkus">
+      <h1>{tajuk}</h1>
+      <p>{ringkasan}</p>
+    </div>
+  </div>
+  <div class="bahagian">
+    <div class="bungkus">
+      <p class="nota">
+        <strong>{lang === 'ms' ? 'Belum lengkap' : 'Not yet complete'}</strong>
+        {nota}
+      </p>
+      {
+        ikutBulan.map((b) => (
+          <section class="bulan" style="max-width: 48rem;">
+            <h2>{namaBulan(b.bulan, lang)}</h2>
+            <ul class="senarai">
+              {b.acara.map((a) => (
+                <li>
+                  <span class="bila">{julat(a.mula, a.tamat, lang)}</span>
+                  <span>{lang === 'en' && a.tajuk_en ? a.tajuk_en : a.tajuk}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</Base>

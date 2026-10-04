@@ -1,0 +1,48 @@
+---
+// Senarai berita SRAIB (termasuk berita peringkat akademi).
+import Base from '../layouts/Base.astro';
+import { T, href, tarikh, type Lang } from '../lib/i18n';
+import { beritaTerbit, tajukBerita, ringkasanBerita } from '../lib/kandungan';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = T[lang];
+const berita = await beritaTerbit(['sraib', 'akademi']);
+const tajuk = lang === 'ms' ? 'Berita dan pengumuman' : 'News and announcements';
+const ringkasan =
+  lang === 'ms' ? 'Berita SRAIB dan pengumuman peringkat akademi, terbaharu dahulu.' : 'SRAIB news and academy-wide announcements, newest first.';
+---
+
+<Base lang={lang} path="sraib/berita" title={tajuk} description={ringkasan}>
+  <div class="tajuk-halaman">
+    <div class="bungkus">
+      <h1>{tajuk}</h1>
+      <p>{ringkasan}</p>
+    </div>
+  </div>
+  <div class="bahagian">
+    <div class="bungkus">
+      {
+        berita.length === 0 ? (
+          <p>{t.tiadaBerita}</p>
+        ) : (
+          <ul class="senarai">
+            {berita.map((b) => (
+              <li>
+                <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>
+                <div>
+                  <h2 style="font-size: 1.3rem; margin: 0 0 0.2rem;">
+                    <a href={href(lang, `sraib/berita/${b.id}`)}>{tajukBerita(b, lang)}</a>
+                  </h2>
+                  <p>{ringkasanBerita(b, lang)}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</Base>

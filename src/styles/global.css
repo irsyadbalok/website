@@ -1,0 +1,672 @@
+/* Sistem reka bentuk laman Irsyad Balok.
+   Warna diambil daripada logo SRAIB: hijau (Islam), biru langit (ilmu), nila (garis logo).
+   Motif gerbang (kubah) diambil daripada bentuk logo. */
+
+:root {
+  --hijau: #0b6b3c;
+  --hijau-tua: #064428;
+  --langit: #9fd6f5;
+  --langit-lembut: #e6f4fc;
+  --nila: #2a217f;
+  --kertas: #f7faf8;
+  --putih: #ffffff;
+  --dakwat: #13231b;
+  --dakwat-lembut: #44564c;
+  --garis: #cfddd4;
+  --kuning: #f3d53b;
+
+  --paparan: 'Bricolage Grotesque Variable', 'Trebuchet MS', sans-serif;
+  --teks: 'Instrument Sans Variable', 'Segoe UI', system-ui, sans-serif;
+
+  --lebar: 72rem;
+  --tepi: clamp(1rem, 4vw, 2.5rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  margin: 0;
+  background: var(--kertas);
+  color: var(--dakwat);
+  font-family: var(--teks);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--paparan);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.6em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(2.1rem, 4.2vw + 1rem, 3.9rem);
+  font-weight: 700;
+}
+h2 {
+  font-size: clamp(1.5rem, 1.4vw + 1.1rem, 2.1rem);
+  font-weight: 650;
+}
+h3 {
+  font-size: 1.2rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--nila);
+  text-underline-offset: 0.18em;
+}
+a:hover {
+  color: var(--hijau);
+}
+:focus-visible {
+  outline: 3px solid var(--nila);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.bungkus {
+  max-width: var(--lebar);
+  margin-inline: auto;
+  padding-inline: var(--tepi);
+}
+
+.langkau {
+  position: absolute;
+  left: 0.5rem;
+  top: -4rem;
+  background: var(--nila);
+  color: var(--putih);
+  padding: 0.6rem 1rem;
+  z-index: 10;
+}
+.langkau:focus {
+  top: 0.5rem;
+  color: var(--putih);
+}
+
+/* ---------- Hebahan segera ---------- */
+.hebahan {
+  background: var(--kuning);
+  color: var(--dakwat);
+  font-weight: 600;
+  padding-block: 0.6rem;
+}
+.hebahan p {
+  margin: 0;
+}
+
+/* ---------- Kepala laman ---------- */
+.kepala {
+  background: var(--putih);
+  border-bottom: 1px solid var(--garis);
+}
+.kepala-baris {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding-block: 0.7rem;
+}
+.jenama {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--dakwat);
+  font-family: var(--paparan);
+  font-weight: 650;
+  line-height: 1.15;
+  margin-right: auto;
+}
+.jenama img {
+  width: 2.6rem;
+  height: auto;
+}
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.2rem 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menu a {
+  display: block;
+  padding: 0.45rem 0.7rem;
+  color: var(--dakwat);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0.4rem;
+}
+.menu a:hover {
+  background: var(--langit-lembut);
+  color: var(--dakwat);
+}
+.menu a[aria-current='page'],
+.menu a[aria-current='true'] {
+  background: var(--hijau);
+  color: var(--putih);
+}
+.menu .bahasa a {
+  border: 1.5px solid var(--nila);
+  color: var(--nila);
+}
+
+.submenu {
+  background: var(--hijau-tua);
+}
+.submenu ul {
+  display: flex;
+  gap: 0.2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.submenu a {
+  display: block;
+  white-space: nowrap;
+  padding: 0.45rem 0.75rem;
+  color: var(--putih);
+  text-decoration: none;
+  border-radius: 0.4rem;
+  font-size: 0.98rem;
+}
+.submenu a:hover {
+  background: rgb(255 255 255 / 0.14);
+  color: var(--putih);
+}
+.submenu a[aria-current='page'] {
+  background: var(--langit);
+  color: var(--dakwat);
+  font-weight: 650;
+}
+.submenu a:focus-visible {
+  outline-color: var(--kuning);
+}
+
+/* ---------- Gerbang (motif logo) ---------- */
+.gerbang {
+  aspect-ratio: 10 / 12.5;
+  background: var(--nila);
+  clip-path: shape(from 0% 100%, vline to 42%, curve to 50% 0% with 0% 20% / 30% 7%, curve to 100% 42% with 70% 7% / 100% 20%, vline to 100%, close);
+  padding: 0.45rem;
+  display: grid;
+}
+.gerbang > .gerbang-dalam {
+  background: var(--langit);
+  clip-path: shape(from 0% 100%, vline to 42%, curve to 50% 0% with 0% 20% / 30% 7%, curve to 100% 42% with 70% 7% / 100% 20%, vline to 100%, close);
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  text-align: center;
+  padding: 34% 9% 9%;
+  color: var(--dakwat);
+}
+/* Pelayar lama tanpa shape(): gerbang bulat sebagai ganti. */
+@supports not (clip-path: shape(from 0 0, close)) {
+  .gerbang,
+  .gerbang > .gerbang-dalam {
+    clip-path: none;
+    border-radius: 50% 50% 0 0 / 38% 38% 0 0;
+  }
+}
+.gerbang.senyap {
+  background: var(--garis);
+}
+.gerbang.senyap > .gerbang-dalam {
+  background: var(--putih);
+  color: var(--dakwat-lembut);
+}
+
+/* ---------- Pembuka halaman ---------- */
+.pembuka {
+  background: var(--putih);
+  border-bottom: 1px solid var(--garis);
+}
+.pembuka-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: end;
+  padding-block: clamp(2rem, 5vw, 4rem) 0;
+}
+.pembuka-teks {
+  padding-bottom: clamp(2rem, 5vw, 4rem);
+  max-width: 40rem;
+}
+.pembuka .moto {
+  font-family: var(--paparan);
+  font-size: clamp(1.15rem, 1vw + 1rem, 1.5rem);
+  font-weight: 500;
+  color: var(--hijau);
+  margin-bottom: 1rem;
+}
+.pembuka-logo {
+  width: min(11rem, 46vw);
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+.pembuka-hab {
+  padding-block: clamp(2rem, 5vw, 4rem);
+  max-width: 52rem;
+}
+@media (min-width: 48rem) {
+  .pembuka-grid {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+  .pembuka-logo {
+    width: clamp(13rem, 22vw, 17rem);
+    margin-block: clamp(2rem, 5vw, 4rem);
+  }
+}
+
+.butang-baris {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.butang {
+  display: inline-block;
+  padding: 0.8rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--hijau);
+  color: var(--putih);
+  font-weight: 650;
+  text-decoration: none;
+  border: 2px solid var(--hijau);
+}
+.butang:hover {
+  background: var(--hijau-tua);
+  border-color: var(--hijau-tua);
+  color: var(--putih);
+}
+.butang.kedua {
+  background: transparent;
+  color: var(--hijau-tua);
+}
+.butang.kedua:hover {
+  background: var(--langit-lembut);
+  color: var(--hijau-tua);
+}
+
+/* ---------- Bahagian ---------- */
+.bahagian {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+.bahagian + .bahagian {
+  border-top: 1px solid var(--garis);
+}
+.bahagian.gelap {
+  background: var(--hijau-tua);
+  color: var(--putih);
+  border-top: 0;
+}
+.bahagian.gelap a {
+  color: var(--langit);
+}
+.bahagian.gelap :focus-visible {
+  outline-color: var(--kuning);
+}
+.kepala-bahagian {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.kepala-bahagian h2 {
+  margin: 0;
+}
+
+/* Tiga gerbang (hab akademi) */
+.tiga-gerbang {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.6rem, 3vw, 2rem);
+  align-items: end;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tiga-gerbang .gerbang-dalam {
+  font-size: clamp(0.72rem, 1.7vw, 1rem);
+  line-height: 1.3;
+}
+.tiga-gerbang strong {
+  display: block;
+  font-family: var(--paparan);
+  font-size: clamp(1.1rem, 3.6vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.tiga-gerbang a {
+  display: block;
+  text-decoration: none;
+}
+.tiga-gerbang a:hover .gerbang {
+  background: var(--hijau);
+}
+.tiga-gerbang .bawah {
+  margin: 0.6rem 0 0;
+  font-size: 0.95rem;
+}
+
+/* Senarai pautan pantas */
+.pautan-pantas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pautan-pantas a {
+  display: block;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  background: var(--putih);
+  border: 1px solid var(--garis);
+  border-left: 0.4rem solid var(--hijau);
+  border-radius: 0.4rem;
+  text-decoration: none;
+  font-weight: 650;
+  color: var(--dakwat);
+}
+.pautan-pantas a:hover {
+  border-left-color: var(--nila);
+  background: var(--langit-lembut);
+}
+.pautan-pantas small {
+  display: block;
+  font-weight: 400;
+  color: var(--dakwat-lembut);
+}
+
+/* Fakta ringkas */
+.fakta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 1.25rem 2rem;
+  margin: 0;
+}
+.fakta dt {
+  color: var(--langit);
+  font-size: 0.95rem;
+}
+.fakta dd {
+  margin: 0;
+  font-family: var(--paparan);
+  font-size: 1.5rem;
+  font-weight: 650;
+  line-height: 1.15;
+}
+
+/* Petikan tinta */
+.petikan > * {
+  max-width: 46rem;
+}
+.petikan blockquote {
+  margin: 0 0 1rem;
+  font-family: var(--paparan);
+  font-size: clamp(1.25rem, 1.2vw + 1rem, 1.7rem);
+  font-weight: 500;
+  line-height: 1.3;
+}
+.petikan cite {
+  font-style: normal;
+  color: var(--dakwat-lembut);
+}
+
+/* Senarai berita dan acara */
+.senarai {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+.senarai > li {
+  display: grid;
+  gap: 0.15rem 1.5rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--garis);
+}
+.senarai > li:last-child {
+  border-bottom: 1px solid var(--garis);
+}
+.senarai time,
+.senarai .bila {
+  color: var(--hijau);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.senarai h3 {
+  margin: 0 0 0.2rem;
+}
+.senarai p {
+  margin: 0;
+  color: var(--dakwat-lembut);
+}
+@media (min-width: 40rem) {
+  .senarai > li {
+    grid-template-columns: 11rem 1fr;
+  }
+}
+.tanda {
+  display: inline-block;
+  font-size: 0.85rem;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--garis);
+  border-radius: 1rem;
+  color: var(--dakwat-lembut);
+  background: var(--putih);
+}
+
+/* Dua lajur di laman utama SRAIB */
+.dua-lajur {
+  display: grid;
+  gap: 2.5rem;
+}
+@media (min-width: 56rem) {
+  .dua-lajur {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+/* ---------- Halaman kandungan ---------- */
+.tajuk-halaman {
+  background: var(--putih);
+  border-bottom: 1px solid var(--garis);
+  padding-block: clamp(1.75rem, 4vw, 3rem);
+}
+.tajuk-halaman h1 {
+  font-size: clamp(1.9rem, 3vw + 1rem, 3.1rem);
+  margin: 0;
+}
+.tajuk-halaman p {
+  margin: 0.6rem 0 0;
+  max-width: 44rem;
+  color: var(--dakwat-lembut);
+  font-size: 1.15rem;
+}
+.prosa {
+  max-width: 44rem;
+}
+.prosa h2 {
+  margin-top: 2em;
+  font-size: 1.55rem;
+}
+.prosa h3 {
+  margin-top: 1.6em;
+}
+.prosa > :first-child {
+  margin-top: 0;
+}
+.prosa ul,
+.prosa ol {
+  padding-left: 1.3rem;
+  margin: 0 0 1em;
+}
+.prosa li {
+  margin-bottom: 0.35em;
+}
+.prosa blockquote {
+  margin: 1.5em 0;
+  padding: 0.2em 0 0.2em 1.2rem;
+  border-left: 0.3rem solid var(--langit);
+  font-size: 1.1rem;
+}
+.prosa table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.5em;
+}
+.prosa th,
+.prosa td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  border-bottom: 1px solid var(--garis);
+}
+.prosa th {
+  font-weight: 650;
+}
+.prosa td:first-child {
+  color: var(--dakwat-lembut);
+  width: 38%;
+}
+.nota {
+  margin: 0 0 1.5rem;
+  padding: 0.8rem 1rem;
+  background: #fffbe0;
+  border: 1px solid #e3cc54;
+  border-left: 0.4rem solid var(--kuning);
+  border-radius: 0.4rem;
+  max-width: 44rem;
+}
+.nota strong {
+  display: block;
+}
+.nota.biru {
+  background: var(--langit-lembut);
+  border-color: var(--langit);
+  border-left-color: var(--nila);
+}
+.meta-halaman {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--garis);
+  color: var(--dakwat-lembut);
+  font-size: 0.95rem;
+  max-width: 44rem;
+}
+.lagi {
+  columns: 2 14rem;
+  padding-left: 1.2rem;
+  margin: 0;
+}
+.lagi li {
+  margin-bottom: 0.4rem;
+  break-inside: avoid;
+}
+
+/* Takwim */
+.bulan {
+  margin-top: 2rem;
+}
+.bulan h2 {
+  font-size: 1.3rem;
+  color: var(--hijau);
+  margin-bottom: 0.25rem;
+}
+
+/* ---------- Kaki laman ---------- */
+.kaki {
+  background: var(--dakwat);
+  color: #dbe6df;
+  padding-block: 2.5rem 1.5rem;
+  font-size: 0.98rem;
+}
+.kaki a {
+  color: var(--langit);
+}
+.kaki :focus-visible {
+  outline-color: var(--kuning);
+}
+.kaki-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 2rem;
+}
+.kaki h2 {
+  font-size: 1.05rem;
+  color: var(--putih);
+  letter-spacing: 0;
+  margin-bottom: 0.5rem;
+}
+.kaki ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.kaki li {
+  margin-bottom: 0.3rem;
+}
+.kaki address {
+  font-style: normal;
+}
+.kaki-bawah {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(255 255 255 / 0.18);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  justify-content: space-between;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .butang,
+  .menu a,
+  .pautan-pantas a,
+  .tiga-gerbang .gerbang {
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+}
+
+@media print {
+  .kepala,
+  .submenu,
+  .kaki,
+  .hebahan {
+    display: none;
+  }
+}
