@@ -20,9 +20,6 @@ const teks = {
     sraib: 'Sekolah rendah',
     smaib: 'Sekolah menengah',
     tatib: 'Tahfiz',
-    daftarKecil: 'Borang dalam talian dan semakan status',
-    ibuBapaKecil: 'Untuk ibu bapa murid sedia ada',
-    stafKecil: 'Untuk guru dan kakitangan',
     desc: 'Laman rasmi Akademi Pendidikan Irsyad Balok, Kuantan: Sekolah Rendah Islam Al-Irsyad Balok (SRAIB), SMAIB dan TATIB.',
   },
   en: {
@@ -31,9 +28,6 @@ const teks = {
     sraib: 'Primary school',
     smaib: 'Secondary school',
     tatib: 'Tahfiz',
-    daftarKecil: 'Online form and status check',
-    ibuBapaKecil: 'For parents of current pupils',
-    stafKecil: 'For teachers and staff',
     desc: 'Official site of Akademi Pendidikan Irsyad Balok, Kuantan: Sekolah Rendah Islam Al-Irsyad Balok (SRAIB), SMAIB and TATIB.',
   },
 }[lang];
@@ -93,26 +87,7 @@ const teks = {
     </div>
   </section>
 
-  <section class="bahagian lembut" aria-labelledby="tajuk-pautan">
-    <div class="bungkus">
-      <div class="kepala-bahagian">
-        <h2 id="tajuk-pautan">{t.pautanPantas}</h2>
-      </div>
-      <ul class="jubin">
-        <li>
-          <a href={tetapan.pautan.pendaftaran} rel="noopener"><strong>{t.pendaftaran}</strong><span>{teks.daftarKecil}</span></a>
-        </li>
-        <li>
-          <a href={tetapan.pautan.ibu_bapa} rel="noopener"><strong>{t.ibuBapa}</strong><span>{teks.ibuBapaKecil}</span></a>
-        </li>
-        <li>
-          <a href={tetapan.pautan.staf} rel="noopener"><strong>{t.staf}</strong><span>{teks.stafKecil}</span></a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="bahagian" aria-labelledby="tajuk-berita">
+  <section class="bahagian lembut" aria-labelledby="tajuk-berita">
     <div class="bungkus">
       <div class="kepala-bahagian">
         <h2 id="tajuk-berita">{t.beritaTerkini}</h2>
