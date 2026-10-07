@@ -2,7 +2,7 @@
 // Laman utama SRAIB. Sengaja ringkas: setiap bahagian membawa pelawat ke halaman lain untuk butiran.
 import Base from '../layouts/Base.astro';
 import { T, NAMA, href, asset, tarikh, julat, type Lang } from '../lib/i18n';
-import { beritaTerbit, tajukBerita, acaraTakwim, tetapanLaman } from '../lib/kandungan';
+import { beritaTerbit, tajukBerita, acaraTakwim, tetapanLaman, laluanBerita } from '../lib/kandungan';
 
 interface Props {
   lang: Lang;
@@ -135,7 +135,7 @@ const teks = {
               {berita.map((b) => (
                 <li>
                   <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>
-                  <a href={href(lang, `sraib/berita/${b.id}`)}>{tajukBerita(b, lang)}</a>
+                  <a href={href(lang, laluanBerita(b))}>{tajukBerita(b, lang)}</a>
                 </li>
               ))}
             </ul>

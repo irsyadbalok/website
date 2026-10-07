@@ -1,8 +1,7 @@
 ---
 // Satu fail ini menjana SEMUA alamat laman, dalam BM (tiada awalan) dan Inggeris (/en/).
 // Untuk menambah halaman tetap, tambah fail Markdown dalam src/content/halaman; tiada kod perlu diubah.
-import { getCollection } from 'astro:content';
-import { LANGS, type Lang } from '../lib/i18n';
+import { semuaLaluan } from '../lib/laluan';
 import HubUtama from '../views/HubUtama.astro';
 import SraibUtama from '../views/SraibUtama.astro';
 import Halaman from '../views/Halaman.astro';
@@ -12,24 +11,8 @@ import Takwim from '../views/Takwim.astro';
 import Hubungi from '../views/Hubungi.astro';
 
 export async function getStaticPaths() {
-  const halaman = await getCollection('halaman');
-  const berita = (await getCollection('berita')).filter((b) => b.data.status === 'terbit');
-  const routes: { lang: Lang; path: string; view: string; id?: string }[] = [];
-
-  // id halaman: 'ms/sraib/profil' -> laluan 'sraib/profil'
-  const laluanBM = halaman.filter((h) => h.id.startsWith('ms/')).map((h) => h.id.slice(3));
-
-  for (const lang of LANGS) {
-    routes.push({ lang, path: '', view: 'hub' });
-    routes.push({ lang, path: 'hubungi', view: 'hubungi' });
-    routes.push({ lang, path: 'sraib', view: 'sraib' });
-    routes.push({ lang, path: 'sraib/berita', view: 'berita' });
-    routes.push({ lang, path: 'sraib/takwim', view: 'takwim' });
-    for (const p of laluanBM) routes.push({ lang, path: p, view: 'halaman' });
-    for (const b of berita) routes.push({ lang, path: `sraib/berita/${b.id}`, view: 'pos', id: b.id });
-  }
-
-  return routes.map((r) => ({
+  // Senarai alamat berada dalam src/lib/laluan.ts.
+  return (await semuaLaluan()).map((r) => ({
     params: { path: [r.lang === 'en' ? 'en' : '', r.path].filter(Boolean).join('/') || undefined },
     props: r,
   }));
@@ -41,7 +24,8 @@ const { lang, path, view, id } = Astro.props;
 {view === 'hub' && <HubUtama lang={lang} />}
 {view === 'sraib' && <SraibUtama lang={lang} />}
 {view === 'halaman' && <Halaman lang={lang} path={path} />}
-{view === 'berita' && <BeritaSenarai lang={lang} />}
+{view === 'berita' && <BeritaSenarai lang={lang} skop="sraib" />}
+{view === 'berita-akademi' && <BeritaSenarai lang={lang} skop="akademi" />}
 {view === 'pos' && <BeritaPos lang={lang} id={id!} />}
 {view === 'takwim' && <Takwim lang={lang} />}
 {view === 'hubungi' && <Hubungi lang={lang} />}

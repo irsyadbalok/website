@@ -1,0 +1,28 @@
+---
+// Halaman "tidak ditemui". Bahasa pelawat tidak diketahui, jadi kedua-dua bahasa dipaparkan.
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/i18n';
+---
+
+<Base lang="ms" path="404" title="Halaman tidak ditemui" description="Alamat ini tidak wujud atau telah dipindahkan.">
+  <div class="tajuk-halaman">
+    <div class="bungkus">
+      <h1>Halaman tidak ditemui</h1>
+      <p>Alamat ini tidak wujud atau telah dipindahkan.</p>
+    </div>
+  </div>
+  <div class="bahagian">
+    <div class="bungkus prosa">
+      <p>Cuba salah satu pautan ini:</p>
+      <ul>
+        <li><a href={href('ms')}>Laman utama Akademi Pendidikan Irsyad Balok</a></li>
+        <li><a href={href('ms', 'sraib')}>Laman SRAIB</a></li>
+        <li><a href={href('ms', 'sraib/berita')}>Berita SRAIB</a></li>
+        <li><a href={href('ms', 'hubungi')}>Hubungi kami</a></li>
+      </ul>
+      <p lang="en">
+        This page could not be found. It may have moved. <a href={href('en')} hreflang="en">Go to the English home page</a>.
+      </p>
+    </div>
+  </div>
+</Base>

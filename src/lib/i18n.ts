@@ -25,11 +25,25 @@ export const NAMA = {
 };
 
 /** Menu utama (akademi). */
-export const MENU_UTAMA = [
-  { path: 'sraib', ms: 'SRAIB', en: 'SRAIB' },
-  { path: 'tentang/visi-misi', ms: 'Tentang', en: 'About' },
+type ItemMenu = { path: string; ms: string; en: string; sub?: { path: string; ms: string; en: string }[] };
+// Unit (SRAIB, SMAIB, TATIB) tidak disenaraikan di sini: gerbang di laman utama akademi ialah pintu masuknya.
+export const MENU_UTAMA: ItemMenu[] = [
+  { path: '', ms: 'Utama', en: 'Home' },
+  {
+    path: 'tentang',
+    ms: 'Tentang',
+    en: 'About',
+    sub: [
+      { path: 'tentang/visi-misi', ms: 'Visi, misi dan moto', en: 'Vision, mission and motto' },
+      { path: 'tentang/falsafah', ms: 'Falsafah pendidikan Islam', en: 'Philosophy of Islamic education' },
+    ],
+  },
+  { path: 'berita', ms: 'Berita', en: 'News' },
   { path: 'hubungi', ms: 'Hubungi', en: 'Contact' },
 ];
+
+/** Nama pendek unit, untuk tanda pada senarai berita. */
+export const UNIT = { akademi: 'Akademi', sraib: 'SRAIB', smaib: 'SMAIB', tatib: 'TATIB' } as const;
 
 export const T = {
   ms: {
@@ -51,6 +65,9 @@ export const T = {
     hubungiPejabat: 'Hubungi pejabat',
     beritaTerkini: 'Berita terkini',
     semuaBerita: 'Semua berita',
+    beritaAkademi: 'Berita akademi',
+    beritaUnit: 'Berita unit',
+    tiadaBeritaAkademi: 'Belum ada berita peringkat akademi diterbitkan.',
     tiadaBerita: 'Belum ada berita diterbitkan.',
     acaraAkanDatang: 'Acara akan datang',
     takwimPenuh: 'Takwim penuh',
@@ -109,6 +126,9 @@ export const T = {
     hubungiPejabat: 'Contact the office',
     beritaTerkini: 'Latest news',
     semuaBerita: 'All news',
+    beritaAkademi: 'Academy news',
+    beritaUnit: 'News from the units',
+    tiadaBeritaAkademi: 'No academy-level news has been published yet.',
     tiadaBerita: 'No news has been published yet.',
     acaraAkanDatang: 'Upcoming events',
     takwimPenuh: 'Full calendar',

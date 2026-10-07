@@ -12,6 +12,15 @@ export async function beritaTerbit(units: string[] = ['akademi', 'sraib', 'smaib
   return semua.sort((a, b) => b.data.tarikh.getTime() - a.data.tarikh.getTime());
 }
 
+/**
+ * Alamat sesuatu pos berita. Berita peringkat akademi berada di bawah /berita/ (kepala akademi);
+ * berita unit berada di bawah laman unitnya. SMAIB dan TATIB belum ada laman, jadi buat masa ini
+ * berita mereka turut dipaparkan di bawah /sraib/berita/.
+ */
+export function laluanBerita(b: { id: string; data: { unit: string } }) {
+  return `${b.data.unit === 'akademi' ? 'berita' : 'sraib/berita'}/${b.id}`;
+}
+
 export function tajukBerita(b: { data: { tajuk: string; tajuk_en?: string } }, lang: Lang) {
   return lang === 'en' && b.data.tajuk_en ? b.data.tajuk_en : b.data.tajuk;
 }
