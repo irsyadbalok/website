@@ -66,7 +66,7 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
         </>
       )
     }
-    <link rel="icon" type="image/png" href={asset('favicon.png')} />
+    <link rel="icon" type="image/png" href={asset(unit === 'sraib' ? 'favicon.png' : 'favicon-apib.png')} />
     <meta property="og:title" content={tajukPenuh} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content="website" />
@@ -107,7 +107,13 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
     <div class="kepala">
       <div class="bungkus kepala-baris">
         <a class="jenama" href={href(lang, unit === 'sraib' ? 'sraib' : '')}>
-          <img src={asset('images/logo-sraib-telus.webp')} alt="" width="360" height="415" />
+          {
+            unit === 'sraib' ? (
+              <img src={asset('images/logo-sraib-telus.webp')} alt="" width="360" height="415" />
+            ) : (
+              <img src={asset('images/logo-apib.webp')} alt="" width="400" height="400" />
+            )
+          }
           <span>{namaUnit}</span>
         </a>
         <button class="menu-butang" type="button" aria-expanded="false" aria-controls="menu-utama">{t.menu}</button>

@@ -504,6 +504,18 @@ a:hover {
     border-radius: 50% 50% 0 0 / 38% 38% 0 0;
   }
 }
+/* Lencana unit di bahagian atas gerbang (hiasan; nama unit ditulis di bawahnya). */
+.gerbang > .gerbang-dalam {
+  position: relative;
+}
+.gerbang-logo {
+  position: absolute;
+  top: 13%;
+  left: 50%;
+  height: 33%;
+  width: auto;
+  transform: translateX(-50%);
+}
 .gerbang.senyap {
   background: var(--garis);
 }
