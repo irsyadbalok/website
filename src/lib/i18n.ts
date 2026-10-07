@@ -27,8 +27,8 @@ export const NAMA = {
 /** Menu utama (akademi). */
 type ItemMenu = { path: string; ms: string; en: string; sub?: { path: string; ms: string; en: string }[] };
 // Unit (SRAIB, SMAIB, TATIB) tidak disenaraikan di sini: gerbang di laman utama akademi ialah pintu masuknya.
+// Tiada "Utama": lencana dan nama akademi di kiri kepala sudah menuju ke laman utama.
 export const MENU_UTAMA: ItemMenu[] = [
-  { path: '', ms: 'Utama', en: 'Home' },
   {
     path: 'tentang',
     ms: 'Tentang',
@@ -65,9 +65,6 @@ export const T = {
     hubungiPejabat: 'Hubungi pejabat',
     beritaTerkini: 'Berita terkini',
     semuaBerita: 'Semua berita',
-    beritaAkademi: 'Berita akademi',
-    beritaUnit: 'Berita unit',
-    tiadaBeritaAkademi: 'Belum ada berita peringkat akademi diterbitkan.',
     tiadaBerita: 'Belum ada berita diterbitkan.',
     acaraAkanDatang: 'Acara akan datang',
     takwimPenuh: 'Takwim penuh',
@@ -126,9 +123,6 @@ export const T = {
     hubungiPejabat: 'Contact the office',
     beritaTerkini: 'Latest news',
     semuaBerita: 'All news',
-    beritaAkademi: 'Academy news',
-    beritaUnit: 'News from the units',
-    tiadaBeritaAkademi: 'No academy-level news has been published yet.',
     tiadaBerita: 'No news has been published yet.',
     acaraAkanDatang: 'Upcoming events',
     takwimPenuh: 'Full calendar',
