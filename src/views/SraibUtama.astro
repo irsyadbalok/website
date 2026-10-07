@@ -124,26 +124,6 @@ const teks = {
     <div class="bungkus dua-lajur">
       <div>
         <div class="kepala-bahagian">
-          <h2>{t.acaraAkanDatang}</h2>
-          <a href={href(lang, 'sraib/takwim')}>{t.takwimPenuh}</a>
-        </div>
-        {
-          acara.length === 0 ? (
-            <p>{t.tiadaAcara}</p>
-          ) : (
-            <ul class="senarai">
-              {acara.map((a) => (
-                <li>
-                  <span class="bila">{julat(a.mula, a.tamat, lang)} {a.mula.getUTCFullYear()}</span>
-                  <span>{lang === 'en' && a.tajuk_en ? a.tajuk_en : a.tajuk}</span>
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </div>
-      <div>
-        <div class="kepala-bahagian">
           <h2>{t.beritaTerkini}</h2>
           <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
         </div>
@@ -156,6 +136,26 @@ const teks = {
                 <li>
                   <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>
                   <a href={href(lang, `sraib/berita/${b.id}`)}>{tajukBerita(b, lang)}</a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+      <div>
+        <div class="kepala-bahagian">
+          <h2>{t.acaraAkanDatang}</h2>
+          <a href={href(lang, 'sraib/takwim')}>{t.takwimPenuh}</a>
+        </div>
+        {
+          acara.length === 0 ? (
+            <p>{t.tiadaAcara}</p>
+          ) : (
+            <ul class="senarai">
+              {acara.map((a) => (
+                <li>
+                  <span class="bila">{julat(a.mula, a.tamat, lang)} {a.mula.getUTCFullYear()}</span>
+                  <span>{lang === 'en' && a.tajuk_en ? a.tajuk_en : a.tajuk}</span>
                 </li>
               ))}
             </ul>

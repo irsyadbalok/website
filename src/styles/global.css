@@ -214,14 +214,27 @@ a:hover {
   color: var(--nila);
   box-shadow: inset 0 -3px 0 var(--hijau);
 }
+/* "Profil" dan "Media": satu butang (teks + anak panah) yang membuka senarai, bukan pautan. */
 .sub-butang {
-  margin-left: -0.5rem;
-  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 1.3rem 0.75rem;
   background: none;
   border: 0;
-  border-radius: 0.25rem;
-  color: var(--dakwat-lembut);
+  font: inherit;
+  font-weight: 600;
+  color: var(--dakwat);
   cursor: pointer;
+  box-shadow: inset 0 -3px 0 transparent;
+}
+.sub-butang svg {
+  color: var(--dakwat-lembut);
+}
+.sub-butang:hover,
+.sub-butang[aria-current] {
+  color: var(--nila);
+  box-shadow: inset 0 -3px 0 var(--hijau);
 }
 .sub-butang[aria-expanded='true'] svg {
   transform: rotate(180deg);
@@ -330,7 +343,19 @@ a:hover {
   .menu > li > a[aria-current] {
     box-shadow: none;
   }
+  /* Senarai di bawah Profil dan Media tertutup sehingga butangnya ditekan (terbuka tanpa JavaScript). */
   .sub-butang {
+    flex: 1;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    text-align: left;
+    box-shadow: none;
+  }
+  .sub-butang:hover,
+  .sub-butang[aria-current] {
+    box-shadow: none;
+  }
+  .js .sub:not(.buka) {
     display: none;
   }
   .menu > li.telefon-sahaja {
@@ -836,6 +861,70 @@ a:hover {
 }
 .pos-butang {
   margin-top: 1.75rem;
+}
+/* Gambar besar di atas halaman yang sama: butang tutup di penjuru kanan atas. */
+.peti {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgb(12 10 40 / 0.95);
+}
+.peti[open] {
+  display: grid;
+  place-items: center;
+}
+.peti::backdrop {
+  background: transparent;
+}
+.peti img {
+  max-width: calc(100vw - 1.5rem);
+  max-height: calc(100vh - 1.5rem);
+  max-height: calc(100dvh - 1.5rem);
+  width: auto;
+  height: auto;
+  border-radius: 0.25rem;
+}
+.peti button {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-radius: 50%;
+  background: rgb(12 10 40 / 0.8);
+  color: var(--putih);
+  cursor: pointer;
+}
+.peti button:hover,
+.peti button:focus-visible {
+  background: var(--nila);
+  border-color: var(--putih);
+}
+.peti-tutup {
+  top: 0.75rem;
+  right: 0.75rem;
+}
+.peti-sebelum,
+.peti-seterusnya {
+  top: calc(50% - 1.5rem);
+}
+.peti-sebelum {
+  left: 0.75rem;
+}
+.peti-seterusnya {
+  right: 0.75rem;
+}
+html:has(.peti[open]) {
+  overflow: hidden;
 }
 .pos-luar {
   margin-left: 0.35rem;

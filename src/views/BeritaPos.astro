@@ -84,7 +84,61 @@ const altFoto = (i: number) => (i === 0 ? alt : `${alt} (${i + 1})`);
         <p class="meta-halaman">
           <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
         </p>
+        {/* Gambar besar di atas halaman yang sama. Tanpa JavaScript, pautan gambar membuka fail gambar seperti biasa. */}
+        {
+          foto.length > 0 && (
+            <dialog class="peti" id="peti-gambar" aria-label={t.gambarPenuh}>
+              <img alt="" />
+              <button type="button" class="peti-tutup" aria-label={t.tutup}>
+                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              {foto.length > 1 && (
+                <>
+                  <button type="button" class="peti-sebelum" aria-label={t.gambarSebelum}>
+                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <button type="button" class="peti-seterusnya" aria-label={t.gambarSeterusnya}>
+                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                </>
+              )}
+            </dialog>
+          )
+        }
       </div>
     </div>
   </article>
 </Base>
+
+<script is:inline>
+  (() => {
+    const peti = document.getElementById('peti-gambar');
+    if (!peti || !peti.showModal) return;
+    const besar = peti.querySelector('img');
+    const bingkai = [...document.querySelectorAll('.pos-bingkai')];
+    let semasa = 0;
+    const tunjuk = (n) => {
+      semasa = (n + bingkai.length) % bingkai.length;
+      besar.src = bingkai[semasa].href;
+      besar.alt = bingkai[semasa].querySelector('img').alt;
+    };
+    bingkai.forEach((a, n) =>
+      a.addEventListener('click', (e) => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey) return; // buka dalam tab baharu seperti biasa
+        e.preventDefault();
+        tunjuk(n);
+        peti.showModal();
+      }),
+    );
+    peti.querySelector('.peti-tutup').addEventListener('click', () => peti.close());
+    peti.querySelector('.peti-sebelum')?.addEventListener('click', () => tunjuk(semasa - 1));
+    peti.querySelector('.peti-seterusnya')?.addEventListener('click', () => tunjuk(semasa + 1));
+    // Menekan kawasan gelap di luar gambar menutup paparan. Esc menutupnya secara terbina dalam.
+    peti.addEventListener('click', (e) => e.target === peti && peti.close());
+    peti.addEventListener('keydown', (e) => {
+      if (bingkai.length < 2) return;
+      if (e.key === 'ArrowLeft') tunjuk(semasa - 1);
+      if (e.key === 'ArrowRight') tunjuk(semasa + 1);
+    });
+  })();
+</script>
