@@ -4,6 +4,7 @@ import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { T, href, asset, tarikh, type Lang } from '../lib/i18n';
 import { tajukBerita, ringkasanBerita } from '../lib/kandungan';
+import { butangPautan, failPdf } from '../lib/pautan';
 
 interface Props {
   lang: Lang;
@@ -14,6 +15,12 @@ const t = T[lang];
 const pos = (await getEntry('berita', id))!;
 const { Content } = await render(pos);
 const d = pos.data;
+const foto = d.gambar;
+const alt = d.gambar_alt ?? '';
+const pautan = butangPautan(d.pautan, lang, id);
+const pdf = failPdf(d.pdf);
+// Teks alt: gambar utama memakai keterangan penuh; gambar lain ditambah nombor supaya berbeza.
+const altFoto = (i: number) => (i === 0 ? alt : `${alt} (${i + 1})`);
 ---
 
 <Base lang={lang} path={`sraib/berita/${id}`} title={tajukBerita(pos, lang)} description={ringkasanBerita(pos, lang)}>
@@ -30,9 +37,49 @@ const d = pos.data;
     <div class="bahagian">
       <div class="bungkus">
         {lang === 'en' && <p class="nota biru">{t.bmSahaja}</p>}
-        {d.gambar && <img src={asset(d.gambar)} alt={d.gambar_alt} style="max-width: 44rem; width: 100%; border-radius: 0.4rem; margin-bottom: 1.5rem;" />}
-        <div class="prosa" lang="ms">
-          <Content />
+        {/* Susunan dalam kod ialah susunan pada telefon: gambar utama, isi, gambar lain.
+            Pada skrin lebar, CSS (.pos) menyusun gambar sebagai mozek di atas isi. */}
+        <div class:list={['pos', `pos-${foto.length}`]}>
+          {
+            foto[0] && (
+              <a class="pos-bingkai pos-utama" href={asset(foto[0])} title={t.lihatGambar}>
+                <img src={asset(foto[0])} alt={altFoto(0)} />
+              </a>
+            )
+          }
+          <div class="pos-isi">
+            <div class="prosa" lang="ms">
+              <Content />
+            </div>
+            {
+              (pdf || pautan.length > 0) && (
+                <div class="butang-baris pos-butang">
+                  {pdf && (
+                    <a class="butang kedua" href={asset(pdf)} download>
+                      {d.pdf_label?.trim() || t.muatTurunPdf}
+                    </a>
+                  )}
+                  {pautan.map((p) => (
+                    <a class="butang kedua" href={p.url} rel="noopener">
+                      {p.teks}
+                      <span class="pos-luar" aria-hidden="true">&#8599;</span>
+                    </a>
+                  ))}
+                </div>
+              )
+            }
+          </div>
+          {
+            foto.length > 1 && (
+              <div class="pos-lain">
+                {foto.slice(1).map((f, i) => (
+                  <a class="pos-bingkai" href={asset(f)} title={t.lihatGambar}>
+                    <img src={asset(f)} alt={altFoto(i + 1)} loading="lazy" />
+                  </a>
+                ))}
+              </div>
+            )
+          }
         </div>
         <p class="meta-halaman">
           <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
