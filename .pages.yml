@@ -1,6 +1,6 @@
 # Konfigurasi Pages CMS (https://pagescms.org): borang yang dilihat oleh editor.
 # Setiap borang menulis fail biasa dalam repositori ini; tiada pangkalan data.
-# NOTA: belum diuji terhadap Pages CMS sebenar. Uji selepas repositori berada di GitHub.
+# Diuji dengan Pages CMS pada 5 Oktober 2026 (pos ujian berjaya diterbitkan).
 
 media:
   input: public/images/uploads
@@ -49,9 +49,13 @@ content:
             - { value: draf, label: Draf (belum diterbitkan) }
             - { value: terbit, label: Terbit }
       - name: gambar
-        label: Gambar utama
-        description: Landskap. Pastikan ibu bapa telah memberi kebenaran jika ada wajah murid.
+        label: Gambar (hingga 3)
+        description: Gambar pertama ialah gambar utama. Landskap paling sesuai; gambar dipangkas mengikut bingkai. Pastikan ibu bapa telah memberi kebenaran jika ada wajah murid.
         type: image
+        options:
+          multiple:
+            max: 3
+          extensions: [jpg, jpeg, png, webp]
       - name: gambar_alt
         label: Teks alt gambar
         description: Wajib jika ada gambar. Terangkan apa yang kelihatan, untuk pembaca skrin.
@@ -59,12 +63,44 @@ content:
       - { name: tajuk_en, label: Tajuk (English, pilihan), type: string }
       - { name: ringkasan_en, label: Ringkasan (English, pilihan), type: text }
       - { name: body, label: Isi, type: rich-text }
+      - name: pdf
+        label: Dokumen PDF (pilihan)
+        description: Satu fail PDF, cth. borang pendaftaran. Dipaparkan sebagai butang di hujung berita.
+        type: file
+        options:
+          extensions: [pdf]
+      - name: pdf_label
+        label: Nama butang PDF (pilihan)
+        description: Kosongkan untuk "Muat turun PDF".
+        type: string
+        options: { maxlength: 40 }
+      - name: pautan
+        label: Pautan media sosial (hingga 3)
+        description: Pilihan. TikTok, Instagram, Facebook atau YouTube sahaja. Setiap pautan menjadi satu butang di hujung berita.
+        type: object
+        list:
+          max: 3
+        fields:
+          - name: url
+            label: Pautan
+            description: Tampal pautan penuh daripada butang "Kongsi" dalam aplikasi.
+            type: string
+            required: true
+            pattern:
+              regex: '^https://([a-z0-9-]+\.)*(tiktok\.com|instagram\.com|facebook\.com|fb\.watch|youtube\.com|youtu\.be)/\S*$'
+              message: Hanya pautan https daripada TikTok, Instagram, Facebook atau YouTube.
+          - name: label
+            label: Nama butang (pilihan)
+            description: Kosongkan untuk nama automatik, cth. "Tonton di TikTok".
+            type: string
+            options: { maxlength: 40 }
 
   - name: halaman
     label: Halaman tetap
     type: collection
     path: src/content/halaman
     subfolders: true
+    operations: { create: false, rename: false, delete: false }
     view:
       fields: [tajuk]
       primary: tajuk
@@ -84,6 +120,7 @@ content:
     label: Takwim 2026
     type: file
     path: src/content/takwim/2026.yaml
+    operations: { delete: false }
     fields:
       - { name: tahun, label: Tahun, type: number }
       - name: acara
@@ -112,6 +149,7 @@ content:
     label: Tetapan laman
     type: file
     path: src/content/tetapan/laman.yaml
+    operations: { delete: false }
     fields:
       - { name: alamat, label: Alamat (satu baris setiap entri), type: string, list: true }
       - { name: waktu_pejabat, label: Waktu pejabat, type: string }

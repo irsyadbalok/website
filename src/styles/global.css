@@ -781,6 +781,114 @@ a:hover {
   font-size: 0.95rem;
   max-width: 44rem;
 }
+
+/* ---------- Pos berita: gambar (hingga 3), butang PDF dan pautan ---------- */
+/* Telefon: gambar utama, isi, kemudian gambar lain. Skrin lebar: mozek gambar di atas isi. */
+.pos {
+  display: grid;
+  gap: 1.5rem;
+}
+.pos-isi {
+  min-width: 0;
+}
+.pos-bingkai {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 0.4rem;
+  background: var(--langit-lembut);
+  aspect-ratio: 3 / 2;
+}
+.pos-bingkai img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pos-lain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.pos-3 .pos-lain .pos-bingkai {
+  aspect-ratio: 4 / 3;
+}
+.pos-2 .pos-lain {
+  grid-template-columns: 1fr;
+}
+/* Satu gambar sahaja: tidak dipangkas; gambar potret dihadkan tingginya. */
+.pos-1 .pos-bingkai {
+  aspect-ratio: auto;
+  overflow: visible;
+  background: none;
+  justify-self: start;
+  max-width: min(44rem, 100%);
+}
+.pos-1 .pos-bingkai img {
+  position: static;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 34rem;
+  border-radius: 0.4rem;
+}
+.pos-butang {
+  margin-top: 1.75rem;
+}
+.pos-luar {
+  margin-left: 0.35rem;
+}
+@media (max-width: 30rem) {
+  .pos-butang {
+    flex-direction: column;
+  }
+  .pos-butang .butang {
+    text-align: center;
+  }
+}
+@media (min-width: 48rem) {
+  .pos-2,
+  .pos-3 {
+    grid-template-areas:
+      'utama lain'
+      'isi isi';
+    column-gap: 0.75rem;
+    row-gap: 2.25rem;
+  }
+  .pos-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .pos-3 {
+    grid-template-columns: 2fr 1fr;
+  }
+  .pos-2 .pos-utama,
+  .pos-3 .pos-utama {
+    grid-area: utama;
+  }
+  .pos-2 .pos-lain,
+  .pos-3 .pos-lain {
+    grid-area: lain;
+  }
+  .pos-2 .pos-isi,
+  .pos-3 .pos-isi {
+    grid-area: isi;
+  }
+  .pos-2 .pos-bingkai {
+    aspect-ratio: 4 / 3;
+  }
+  /* Tiga gambar: dua gambar kecil bertindan, sama tinggi dengan gambar utama. */
+  .pos-3 .pos-lain {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .pos-3 .pos-lain .pos-bingkai {
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+}
 .lagi {
   columns: 2 14rem;
   padding-left: 1.2rem;
