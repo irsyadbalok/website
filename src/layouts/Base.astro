@@ -106,8 +106,9 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
                   <a href={href(lang, 'sraib')} aria-current={aktif === 'utama' ? 'page' : undefined}>{t.utama}</a>
                 </li>
                 <li class="ada-sub lebar">
-                  <a href={href(lang, 'sraib/profil')} aria-current={aktif === 'profil' ? 'true' : undefined}>{t.profil}</a>
-                  <button class="sub-butang" type="button" aria-expanded="false" aria-controls="sub-profil" aria-label={`${t.submenu} ${t.profil}`}>
+                  {/* Butang, bukan pautan: menekan "Profil" membuka senarai. Halaman profil ada dalam senarai itu. */}
+                  <button class="sub-butang" type="button" aria-expanded="false" aria-controls="sub-profil" aria-current={aktif === 'profil' ? 'true' : undefined}>
+                    {t.profil}
                     <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                   </button>
                   <div class="sub lajur" id="sub-profil">
@@ -124,8 +125,8 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
                   </div>
                 </li>
                 <li class="ada-sub">
-                  <a href={href(lang, 'sraib/berita')} aria-current={aktif === 'media' ? 'true' : undefined}>Media</a>
-                  <button class="sub-butang" type="button" aria-expanded="false" aria-controls="sub-media" aria-label={`${t.submenu} Media`}>
+                  <button class="sub-butang" type="button" aria-expanded="false" aria-controls="sub-media" aria-current={aktif === 'media' ? 'true' : undefined}>
+                    Media
                     <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                   </button>
                   <div class="sub" id="sub-media">
