@@ -695,6 +695,22 @@ a:hover {
 .senarai.lebar > li {
   grid-template-columns: 1fr;
 }
+/* Tanda unit pada senarai berita (Akademi, SRAIB, SMAIB, TATIB). */
+.tag-unit {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--nila);
+  border-radius: 0.25rem;
+  background: var(--langit-lembut);
+  color: var(--nila);
+  font-family: var(--teks);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  vertical-align: 0.12em;
+}
 @media (min-width: 40rem) {
   .senarai.lebar > li {
     grid-template-columns: 11rem 1fr;
@@ -1029,7 +1045,12 @@ html:has(.peti[open]) {
   padding: 0;
 }
 .kaki li {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.1rem;
+}
+/* Sasaran sentuh sekurang-kurangnya 24 piksel tinggi (WCAG 2.2, 2.5.8). */
+.kaki ul a {
+  display: inline-block;
+  padding-block: 0.2rem;
 }
 .kaki address {
   font-style: normal;

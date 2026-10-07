@@ -15,12 +15,16 @@ interface Props {
   path: string;
   title: string;
   description?: string;
+  /** Gambar pratonton apabila pautan dikongsi (laluan seperti '/images/uploads/x.jpg'). Lalai: gambar umum laman. */
+  image?: string;
 }
 
-const { lang, path, title, description } = Astro.props;
+const { lang, path, title, description, image } = Astro.props;
 const t = T[lang];
 const lain: Lang = lang === 'ms' ? 'en' : 'ms';
 const unit = path === 'sraib' || path.startsWith('sraib/') ? 'sraib' : 'akademi';
+// Gambar pratonton lalai: satu untuk akademi, satu untuk SRAIB (dengan lencana sekolah).
+const gambarKongsi = new URL(asset(image ?? (unit === 'sraib' ? 'images/kongsi-sraib.jpg' : 'images/kongsi.jpg')), Astro.site).toString();
 const tetapan = (await getEntry('tetapan', 'laman'))!.data;
 const hubungan = unit === 'sraib' ? tetapan.sraib : tetapan.akademi;
 const media = [
@@ -32,8 +36,12 @@ const media = [
 const namaUnit = unit === 'sraib' ? NAMA.sraibPendek : NAMA.akademi;
 const tajukPenuh = title === NAMA.akademi ? title : `${title} | ${namaUnit}`;
 const kanonik = new URL(href(lang, path), Astro.site).toString();
+const tiadaHalaman = path === '404';
+// Alamat prototaip (cth. github.io) tidak patut muncul dalam Google; hanya domain sebenar yang diindeks.
+const hos = Astro.site?.hostname ?? '';
+const prototaip = !(hos === 'irsyadbalok.com.my' || hos.endsWith('.irsyadbalok.com.my'));
 const aktif = unit === 'sraib' ? bahagianSraib(path) : '';
-const semasaHab = (p: string) => path === p || path.startsWith(p.split('/')[0] + '/');
+const semasaHab = (p: string) => path === p || (p !== '' && path.startsWith(p.split('/')[0] + '/'));
 const ke = (p: Pautan) => href(lang, p.path) + (p.hash ? `#${p.hash[lang]}` : '');
 
 const hebahan = tetapan.hebahan;
@@ -48,13 +56,27 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{tajukPenuh}</title>
     {description && <meta name="description" content={description} />}
-    <link rel="canonical" href={kanonik} />
-    <link rel="alternate" hreflang="ms" href={new URL(href('ms', path), Astro.site).toString()} />
-    <link rel="alternate" hreflang="en" href={new URL(href('en', path), Astro.site).toString()} />
+    {(prototaip || tiadaHalaman) && <meta name="robots" content="noindex" />}
+    {
+      !tiadaHalaman && (
+        <>
+          <link rel="canonical" href={kanonik} />
+          <link rel="alternate" hreflang="ms" href={new URL(href('ms', path), Astro.site).toString()} />
+          <link rel="alternate" hreflang="en" href={new URL(href('en', path), Astro.site).toString()} />
+        </>
+      )
+    }
     <link rel="icon" type="image/png" href={asset('favicon.png')} />
     <meta property="og:title" content={tajukPenuh} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={NAMA.akademi} />
+    <meta property="og:locale" content={lang === 'ms' ? 'ms_MY' : 'en_MY'} />
+    {!tiadaHalaman && <meta property="og:url" content={kanonik} />}
+    <meta property="og:image" content={gambarKongsi} />
+    {!image && <meta property="og:image:width" content="1200" />}
+    {!image && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#0e6b38" />
     <!-- Tanpa JavaScript, menu dipaparkan terbuka sepenuhnya dan laman tetap boleh digunakan. -->
     <script is:inline>
@@ -64,6 +86,7 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
   <body>
     <a class="langkau" href="#kandungan">{t.langkau}</a>
 
+    <header>
     {
       hebahanAktif && (
         <div class="hebahan" role="status">
@@ -77,11 +100,11 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
     <div class="jalur-atas">
       <div class="bungkus">
         <a href={href(lang)}>{NAMA.akademi}</a>
-        <a href={href(lain, path)} lang={lain} hreflang={lain} aria-label={t.bahasaLainLabel}>{t.bahasaLain}</a>
+        <a href={href(lain, tiadaHalaman ? '' : path)} lang={lain} hreflang={lain} aria-label={t.bahasaLainLabel}>{t.bahasaLain}</a>
       </div>
     </div>
 
-    <header class="kepala">
+    <div class="kepala">
       <div class="bungkus kepala-baris">
         <a class="jenama" href={href(lang, unit === 'sraib' ? 'sraib' : '')}>
           <img src={asset('images/logo-sraib-telus.webp')} alt="" width="360" height="415" />
@@ -92,13 +115,29 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
           {
             unit === 'akademi' ? (
               <ul class="menu">
-                {MENU_UTAMA.map((m) => (
-                  <li>
-                    <a href={href(lang, m.path)} aria-current={semasaHab(m.path) ? 'page' : undefined}>
-                      {m[lang]}
-                    </a>
-                  </li>
-                ))}
+                {MENU_UTAMA.map((m) =>
+                  m.sub ? (
+                    <li class="ada-sub">
+                      <button class="sub-butang" type="button" aria-expanded="false" aria-controls={`sub-${m.path}`} aria-current={semasaHab(m.path) ? 'true' : undefined}>
+                        {m[lang]}
+                        <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                      </button>
+                      <div class="sub" id={`sub-${m.path}`}>
+                        <ul>
+                          {m.sub.map((s) => (
+                            <li><a href={href(lang, s.path)} aria-current={path === s.path ? 'page' : undefined}>{s[lang]}</a></li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  ) : (
+                    <li>
+                      <a href={href(lang, m.path)} aria-current={semasaHab(m.path) ? 'page' : undefined}>
+                        {m[lang]}
+                      </a>
+                    </li>
+                  ),
+                )}
               </ul>
             ) : (
               <ul class="menu">
@@ -152,6 +191,7 @@ const teksHebahan = lang === 'en' && hebahan.teks_en ? hebahan.teks_en : hebahan
         </nav>
         {unit === 'sraib' && <a class="butang kecil" href={href(lang, 'sraib/pendaftaran')}>{t.daftarPendek}</a>}
       </div>
+    </div>
     </header>
 
     <main id="kandungan">

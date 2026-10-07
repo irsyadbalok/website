@@ -3,8 +3,9 @@
 import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { T, href, asset, tarikh, type Lang } from '../lib/i18n';
-import { tajukBerita, ringkasanBerita } from '../lib/kandungan';
+import { laluanBerita, tajukBerita, ringkasanBerita } from '../lib/kandungan';
 import { butangPautan, failPdf } from '../lib/pautan';
+import { maklumatGambar } from '../lib/gambar';
 
 interface Props {
   lang: Lang;
@@ -15,15 +16,31 @@ const t = T[lang];
 const pos = (await getEntry('berita', id))!;
 const { Content } = await render(pos);
 const d = pos.data;
+// Berita akademi dipaparkan dengan kepala akademi di bawah /berita/; berita unit di bawah /sraib/berita/.
+const senarai = d.unit === 'akademi' ? 'berita' : 'sraib/berita';
 const foto = d.gambar;
 const alt = d.gambar_alt ?? '';
 const pautan = butangPautan(d.pautan, lang, id);
 const pdf = failPdf(d.pdf);
 // Teks alt: gambar utama memakai keterangan penuh; gambar lain ditambah nombor supaya berbeza.
 const altFoto = (i: number) => (i === 0 ? alt : `${alt} (${i + 1})`);
+// Lebar, tinggi dan salinan kecil setiap gambar (lihat src/lib/gambar.ts).
+const maklumat = await Promise.all(foto.map(maklumatGambar));
+const atribut = (i: number) => {
+  const m = maklumat[i];
+  if (!m) return {};
+  return {
+    width: m.w,
+    height: m.h,
+    srcset: m.kecil ? `${asset(m.kecil.laluan)} ${m.kecil.w}w, ${asset(foto[i])} ${m.w}w` : undefined,
+  };
+};
+// Lebar paparan setiap gambar, supaya pelayar memilih salinan yang sesuai.
+const lebarUtama = foto.length === 1 ? '(min-width: 48rem) 44rem, 100vw' : foto.length === 2 ? '(min-width: 48rem) 50vw, 100vw' : '(min-width: 48rem) 64vw, 100vw';
+const lebarLain = foto.length === 2 ? '(min-width: 48rem) 50vw, 100vw' : '(min-width: 48rem) 32vw, 50vw';
 ---
 
-<Base lang={lang} path={`sraib/berita/${id}`} title={tajukBerita(pos, lang)} description={ringkasanBerita(pos, lang)}>
+<Base lang={lang} path={laluanBerita(pos)} title={tajukBerita(pos, lang)} description={ringkasanBerita(pos, lang)} image={foto[0]}>
   <article>
     <div class="tajuk-halaman">
       <div class="bungkus">
@@ -43,7 +60,7 @@ const altFoto = (i: number) => (i === 0 ? alt : `${alt} (${i + 1})`);
           {
             foto[0] && (
               <a class="pos-bingkai pos-utama" href={asset(foto[0])} title={t.lihatGambar}>
-                <img src={asset(foto[0])} alt={altFoto(0)} />
+                <img src={asset(foto[0])} alt={altFoto(0)} {...atribut(0)} sizes={maklumat[0]?.kecil && lebarUtama} fetchpriority="high" />
               </a>
             )
           }
@@ -74,7 +91,7 @@ const altFoto = (i: number) => (i === 0 ? alt : `${alt} (${i + 1})`);
               <div class="pos-lain">
                 {foto.slice(1).map((f, i) => (
                   <a class="pos-bingkai" href={asset(f)} title={t.lihatGambar}>
-                    <img src={asset(f)} alt={altFoto(i + 1)} loading="lazy" />
+                    <img src={asset(f)} alt={altFoto(i + 1)} {...atribut(i + 1)} sizes={maklumat[i + 1]?.kecil && lebarLain} loading="lazy" />
                   </a>
                 ))}
               </div>
@@ -82,7 +99,7 @@ const altFoto = (i: number) => (i === 0 ? alt : `${alt} (${i + 1})`);
           }
         </div>
         <p class="meta-halaman">
-          <a href={href(lang, 'sraib/berita')}>{t.semuaBerita}</a>
+          <a href={href(lang, senarai)}>{d.unit === 'akademi' ? t.beritaAkademi : t.semuaBerita}</a>
         </p>
         {/* Gambar besar di atas halaman yang sama. Tanpa JavaScript, pautan gambar membuka fail gambar seperti biasa. */}
         {

@@ -1,21 +1,28 @@
 ---
-// Senarai berita SRAIB (termasuk berita peringkat akademi).
+// Senarai berita. skop "sraib": berita SRAIB dan berita akademi. skop "akademi": berita peringkat akademi sahaja.
 import Base from '../layouts/Base.astro';
-import { T, href, tarikh, type Lang } from '../lib/i18n';
-import { beritaTerbit, tajukBerita, ringkasanBerita } from '../lib/kandungan';
+import { T, UNIT, href, tarikh, type Lang } from '../lib/i18n';
+import { beritaTerbit, laluanBerita, tajukBerita, ringkasanBerita } from '../lib/kandungan';
 
 interface Props {
   lang: Lang;
+  skop: 'sraib' | 'akademi';
 }
-const { lang } = Astro.props;
+const { lang, skop } = Astro.props;
 const t = T[lang];
-const berita = await beritaTerbit(['sraib', 'akademi']);
-const tajuk = lang === 'ms' ? 'Berita dan pengumuman' : 'News and announcements';
-const ringkasan =
-  lang === 'ms' ? 'Berita SRAIB dan pengumuman peringkat akademi, terbaharu dahulu.' : 'SRAIB news and academy-wide announcements, newest first.';
+const akademi = skop === 'akademi';
+const berita = await beritaTerbit(akademi ? ['akademi'] : ['sraib', 'akademi']);
+const tajuk = akademi ? t.beritaAkademi : lang === 'ms' ? 'Berita dan pengumuman' : 'News and announcements';
+const ringkasan = akademi
+  ? lang === 'ms'
+    ? 'Berita dan pengumuman peringkat Akademi Pendidikan Irsyad Balok, terbaharu dahulu.'
+    : 'News and announcements from Akademi Pendidikan Irsyad Balok, newest first.'
+  : lang === 'ms'
+    ? 'Berita SRAIB dan pengumuman peringkat akademi, terbaharu dahulu.'
+    : 'SRAIB news and academy-wide announcements, newest first.';
 ---
 
-<Base lang={lang} path="sraib/berita" title={tajuk} description={ringkasan}>
+<Base lang={lang} path={akademi ? 'berita' : 'sraib/berita'} title={tajuk} description={ringkasan}>
   <div class="tajuk-halaman">
     <div class="bungkus">
       <h1>{tajuk}</h1>
@@ -26,7 +33,7 @@ const ringkasan =
     <div class="bungkus">
       {
         berita.length === 0 ? (
-          <p>{t.tiadaBerita}</p>
+          <p>{akademi ? t.tiadaBeritaAkademi : t.tiadaBerita}</p>
         ) : (
           <ul class="senarai lebar">
             {berita.map((b) => (
@@ -34,13 +41,25 @@ const ringkasan =
                 <time datetime={b.data.tarikh.toISOString().slice(0, 10)}>{tarikh(b.data.tarikh, lang)}</time>
                 <div>
                   <h2 style="font-size: 1.3rem; margin: 0 0 0.2rem;">
-                    <a href={href(lang, `sraib/berita/${b.id}`)}>{tajukBerita(b, lang)}</a>
+                    {/* Dalam senarai SRAIB, berita peringkat akademi ditandakan. */}
+                    {!akademi && b.data.unit === 'akademi' && <span class="tag-unit">{UNIT.akademi}</span>}
+                    <a href={href(lang, laluanBerita(b))}>{tajukBerita(b, lang)}</a>
                   </h2>
                   <p>{ringkasanBerita(b, lang)}</p>
                 </div>
               </li>
             ))}
           </ul>
+        )
+      }
+      {
+        akademi && (
+          <div class="meta-halaman">
+            <h2 style="font-size: 1.05rem; margin: 0 0 0.4rem;">{t.beritaUnit}</h2>
+            <ul class="lagi">
+              <li><a href={href(lang, 'sraib/berita')}>SRAIB</a></li>
+            </ul>
+          </div>
         )
       }
     </div>
